@@ -1,5 +1,6 @@
-[gd_scene load_steps=8 format=3 uid="uid://b8xk3m2cqpvyd"]
+[gd_scene load_steps=9 format=3 uid="uid://b8xk3m2cqpvyd"]
 
+[ext_resource type="Script" path="res://ui/main_menu.gd" id="1_menu"]
 [ext_resource type="Shader" path="res://shaders/ocean.gdshader" id="1_ocean"]
 [ext_resource type="Shader" path="res://shaders/sky.gdshader" id="2_sky"]
 
@@ -83,6 +84,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_menu")
 
 [node name="BackgroundLayer" type="CanvasLayer" parent="."]
 layer = -10
