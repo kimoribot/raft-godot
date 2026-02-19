@@ -15,6 +15,12 @@ config/icon="res://icon.svg"
 
 AudioManager="*res://autoload/audio_manager.gd"
 GameState="*res://autoload/game_state.gd"
+NetworkManager="*res://autoload/network_manager.gd"
+
+[network]
+
+default_port=7777
+latency_threshold=100
 
 [display]
 
