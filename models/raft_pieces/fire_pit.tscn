@@ -1,0 +1,111 @@
+[gd_scene load_steps=2 format=3 uid="uid://fire_pit"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_pit"]
+size = Vector3(1.2, 0.4, 1.2)
+
+[node name="fire_pit" type="Node3D"]
+
+[node name="stone_base" type="StaticBody3D" parent="."]
+position = Vector3(0, 0.2, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="stone_base"]
+mesh = BoxMesh.new()
+mesh.size = Vector3(1.2, 0.35, 1.2)
+
+[node name="MeshInstance3D_stone_mat" type="StandardMaterial3D" parent="stone_base/MeshInstance3D"]
+albedo_color = Color(0.45, 0.43, 0.4, 1)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="stone_base"]
+shape = SubResource("BoxShape3D_pit")
+
+[node name="stone_wall1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0.45, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="stone_wall1"]
+mesh = BoxMesh.new()
+mesh.size = Vector3(0.15, 0.25, 1.1)
+
+[node name="MeshInstance3D_stone_mat" type="StandardMaterial3D" parent="stone_wall1/MeshInstance3D"]
+albedo_color = Color(0.4, 0.38, 0.35, 1)
+
+[node name="stone_wall2" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.45, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="stone_wall2"]
+mesh = BoxMesh.new()
+mesh.size = Vector3(0.15, 0.25, 1.1)
+
+[node name="MeshInstance3D_stone_mat" type="StandardMaterial3D" parent="stone_wall2/MeshInstance3D"]
+albedo_color = Color(0.4, 0.38, 0.35, 1)
+
+[node name="stone_wall3" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, -0.5)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="stone_wall3"]
+mesh = BoxMesh.new()
+mesh.size = Vector3(1.1, 0.25, 0.15)
+
+[node name="MeshInstance3D_stone_mat" type="StandardMaterial3D" parent="stone_wall3/MeshInstance3D"]
+albedo_color = Color(0.42, 0.4, 0.37, 1)
+
+[node name="stone_wall4" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, 0.5)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="stone_wall4"]
+mesh = BoxMesh.new()
+mesh.size = Vector3(1.1, 0.25, 0.15)
+
+[node name="MeshInstance3D_stone_mat" type="StandardMaterial3D" parent="stone_wall4/MeshInstance3D"]
+albedo_color = Color(0.42, 0.4, 0.37, 1)
+
+[node name="coals" type="StaticBody3D" parent="."]
+position = Vector3(0, 0.35, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="coals"]
+mesh = BoxMesh.new()
+mesh.size = Vector3(0.9, 0.08, 0.9)
+
+[node name="MeshInstance3D_coal_mat" type="StandardMaterial3D" parent="coals/MeshInstance3D"]
+albedo_color = Color(0.15, 0.1, 0.08, 1)
+
+[node name="flames" type="StaticBody3D" parent="."]
+position = Vector3(0, 0.55, 0)
+
+[node name="flame1" type="StaticBody3D" parent="flames"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="flames/flame1"]
+mesh = PrismMesh.new()
+mesh.size = Vector3(0.15, 0.35, 0.1)
+
+[node name="MeshInstance3D_flame_mat" type="StandardMaterial3D" parent="flames/flame1/MeshInstance3D"]
+albedo_color = Color(1.0, 0.4, 0.1, 1)
+emission_enabled = true
+emission = Color(1.0, 0.3, 0.05, 1)
+emission_energy_multiplier = 2.0
+
+[node name="flame2" type="StaticBody3D" parent="flames"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.12, 0, 0.08)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="flames/flame2"]
+mesh = PrismMesh.new()
+mesh.size = Vector3(0.12, 0.28, 0.08)
+
+[node name="MeshInstance3D_flame_mat" type="StandardMaterial3D" parent="flames/flame2/MeshInstance3D"]
+albedo_color = Color(1.0, 0.5, 0.15, 1)
+emission_enabled = true
+emission = Color(1.0, 0.4, 0.1, 1)
+emission_energy_multiplier = 1.8
+
+[node name="flame3" type="StaticBody3D" parent="flames"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.05, 0, -0.1)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="flames/flame3"]
+mesh = PrismMesh.new()
+mesh.size = Vector3(0.1, 0.25, 0.08)
+
+[node name="MeshInstance3D_flame_mat" type="StandardMaterial3D" parent="flames/flame3/MeshInstance3D"]
+albedo_color = Color(1.0, 0.35, 0.08, 1)
+emission_enabled = true
+emission = Color(1.0, 0.25, 0.03, 1)
+emission_energy_multiplier = 1.5

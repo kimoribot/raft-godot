@@ -1,0 +1,44 @@
+[gd_scene load_steps=2 format=3]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_1"]
+size = Vector3(2, 0.3, 2)
+
+[node name="RaftSmall" type="StaticBody3D"]
+
+[node name="Floor" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+mesh = BoxMesh.new()
+mesh.size = Vector3(2, 0.3, 2)
+surface_material_override/0 = StandardMaterial3D.new()
+surface_material_override/0.albedo_color = Color(0.55, 0.35, 0.2, 1)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0)
+shape = SubResource("BoxShape3D_1")
+
+[node name="Log1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8, 0.15, 0)
+mesh = CylinderMesh.new()
+mesh.top_radius = 0.15
+mesh.bottom_radius = 0.12
+mesh.height = 1.8
+surface_material_override/0 = StandardMaterial3D.new()
+surface_material_override/0.albedo_color = Color(0.4, 0.25, 0.1, 1)
+
+[node name="Log2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0)
+mesh = CylinderMesh.new()
+mesh.top_radius = 0.15
+mesh.bottom_radius = 0.12
+mesh.height = 1.8
+surface_material_override/0 = StandardMaterial3D.new()
+surface_material_override/0.albedo_color = Color(0.4, 0.25, 0.1, 1)
+
+[node name="Log3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, 0.15, 0)
+mesh = CylinderMesh.new()
+mesh.top_radius = 0.15
+mesh.bottom_radius = 0.12
+mesh.height = 1.8
+surface_material_override/0 = StandardMaterial3D.new()
+surface_material_override/0.albedo_color = Color(0.4, 0.25, 0.1, 1)

@@ -1,0 +1,45 @@
+[gd_scene load_steps=2 format=3]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_1"]
+size = Vector3(1.2, 0.8, 0.8)
+
+[node name="TableWood" type="StaticBody3D"]
+
+[node name="Top" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+mesh = BoxMesh.new()
+mesh.size = Vector3(1.2, 0.08, 0.8)
+surface_material_override/0 = StandardMaterial3D.new()
+surface_material_override/0.albedo_color = Color(0.45, 0.3, 0.15, 1)
+
+[node name="Leg1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0.18, -0.3)
+mesh = BoxMesh.new()
+mesh.size = Vector3(0.08, 0.35, 0.08)
+surface_material_override/0 = StandardMaterial3D.new()
+surface_material_override/0.albedo_color = Color(0.35, 0.22, 0.1, 1)
+
+[node name="Leg2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.18, -0.3)
+mesh = BoxMesh.new()
+mesh.size = Vector3(0.08, 0.35, 0.08)
+surface_material_override/0 = StandardMaterial3D.new()
+surface_material_override/0.albedo_color = Color(0.35, 0.22, 0.1, 1)
+
+[node name="Leg3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0.18, 0.3)
+mesh = BoxMesh.new()
+mesh.size = Vector3(0.08, 0.35, 0.08)
+surface_material_override/0 = StandardMaterial3D.new()
+surface_material_override/0.albedo_color = Color(0.35, 0.22, 0.1, 1)
+
+[node name="Leg4" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.18, 0.3)
+mesh = BoxMesh.new()
+mesh.size = Vector3(0.08, 0.35, 0.08)
+surface_material_override/0 = StandardMaterial3D.new()
+surface_material_override/0.albedo_color = Color(0.35, 0.22, 0.1, 1)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+shape = SubResource("BoxShape3D_1")

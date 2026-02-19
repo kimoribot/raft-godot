@@ -1,0 +1,22 @@
+[gd_scene load_steps=2 format=3]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_1"]
+size = Vector3(0.6, 0.5, 0.6)
+
+[node name="Crate" type="StaticBody3D"]
+
+[node name="Box" type="MeshInstance3D" parent="."]
+mesh = BoxMesh.new()
+mesh.size = Vector3(0.6, 0.5, 0.6)
+surface_material_override/0 = StandardMaterial3D.new()
+surface_material_override/0.albedo_color = Color(0.5, 0.35, 0.2, 1)
+
+[node name="Stripes" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.301)
+mesh = BoxMesh.new()
+mesh.size = Vector3(0.62, 0.52, 0.02)
+surface_material_override/0 = StandardMaterial3D.new()
+surface_material_override/0.albedo_color = Color(0.3, 0.2, 0.1, 1)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_1")

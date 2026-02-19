@@ -1,0 +1,29 @@
+[gd_scene load_steps=2 format=3]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_1"]
+height = 0.4
+radius = 0.2
+
+[node name="Tarps" type="StaticBody3D"]
+
+[node name="Roll1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.15, 0, 0)
+mesh = CylinderMesh.new()
+mesh.top_radius = 0.18
+mesh.bottom_radius = 0.18
+mesh.height = 0.35
+surface_material_override/0 = StandardMaterial3D.new()
+surface_material_override/0.albedo_color = Color(0.6, 0.55, 0.45, 1)
+
+[node name="Roll2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.15, 0, 0)
+mesh = CylinderMesh.new()
+mesh.top_radius = 0.15
+mesh.bottom_radius = 0.15
+mesh.height = 0.3
+surface_material_override/0 = StandardMaterial3D.new()
+surface_material_override/0.albedo_color = Color(0.5, 0.5, 0.5, 1)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0)
+shape = SubResource("CylinderShape3D_1")
