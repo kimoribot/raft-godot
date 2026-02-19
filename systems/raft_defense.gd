@@ -70,6 +70,16 @@ signal defense_upgraded(defense_id: int, old_tier: DefenseTier, new_tier: Defens
 @export var turret_damage: float = 25.0
 @export var max_turret_range: float = 25.0
 
+@export_category("Spike Wall Settings")
+@export var spike_damage: float = 10.0
+@export var spike_attack_cooldown: float = 1.0
+@export var spike_armor_piercing: float = 0.5
+
+@export_category("Deterrent Settings")
+@export var deterrent_effect_radius: float = 15.0
+@export var deterrent_scare_strength: float = 0.7
+@export var deterrent_cooldown: float = 2.0
+
 ## ══════════════════════════════════════════════════════════════════════════════
 ## PUBLIC VARIABLES
 ## ══════════════════════════════════════════════════════════════════════════════
@@ -235,12 +245,17 @@ func place_defense(defense_type: DefenseType, position: Vector3, tier: DefenseTi
 	
 	# Type-specific initialization
 	match defense_type:
+		DefenseType.SPIKE_WALL:
+			defense_data["spike_damage"] = spike_damage * tier_data["damage_multiplier"]
+			defense_data["attack_cooldown"] = spike_attack_cooldown
+			defense_data["last_attack_time"] = 0.0
 		DefenseType.HARPOON_TURRET:
 			defense_data["ammo"] = 20
 			defense_data["max_ammo"] = 20
 		DefenseType.SHARK_DETERRENT:
-			defense_data["effect_radius"] = 15.0
-			defense_data["scare_strength"] = 0.5
+			defense_data["effect_radius"] = deterrent_effect_radius
+			defense_data["scare_strength"] = deterrent_scare_strength
+			defense_data["cooldown_timer"] = deterrent_cooldown
 		DefenseType.RAFT_ARMOR:
 			_apply_armor_bonus(tier_data["armor_bonus"])
 	

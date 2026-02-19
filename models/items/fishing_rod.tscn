@@ -1,74 +1,115 @@
-[gd_scene load_steps=2 format=3 uid="uid://d9fjh4k6n8sga"]
+[gd_scene load_steps=5 format=3 uid="uid://item_fishing_rod"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_handle"]
-albedo_color = Color(0.3, 0.2, 0.1, 1)
+[sub_resource type="StandardMaterial3D" id="handle_mat"]
+albedo_color = Color(0.25, 0.15, 0.08, 1)
+roughness = 0.9
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rod"]
-albedo_color = Color(0.6, 0.6, 0.65, 1)
-metallic = 0.5
-roughness = 0.4
+[sub_resource type="StandardMaterial3D" id="rod_mat"]
+albedo_color = Color(0.5, 0.5, 0.55, 1)
+metalness = 0.3
+roughness = 0.5
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_line"]
-albedo_color = Color(0.8, 0.8, 0.8, 1)
+[sub_resource type="StandardMaterial3D" id="line_mat"]
+albedo_color = Color(0.9, 0.9, 0.9, 1)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hook"]
+[sub_resource type="StandardMaterial3D" id="hook_mat"]
 albedo_color = Color(0.75, 0.75, 0.8, 1)
-metallic = 0.9
+metalness = 0.9
 roughness = 0.2
+
+[sub_resource type="CylinderMesh" id="handle_mesh"]
+top_radius = 0.025
+bottom_radius = 0.03
+height = 0.25
+
+[sub_resource type="CylinderMesh" id="rod_mesh"]
+top_radius = 0.008
+bottom_radius = 0.02
+height = 1.8
+
+[sub_resource type="CylinderMesh" id="line_mesh"]
+top_radius = 0.003
+bottom_radius = 0.003
+height = 1.2
+
+[sub_resource type="CylinderMesh" id="hook_mesh"]
+top_radius = 0.015
+bottom_radius = 0.003
+height = 0.08
+
+[sub_resource type="CylinderMesh" id="reel_mesh"]
+top_radius = 0.05
+bottom_radius = 0.05
+height = 0.04
+
+[sub_resource type="CylinderShape3D" id="handle_col"]
+height = 0.25
+radius = 0.03
+
+[sub_resource type="CylinderShape3D" id="rod_col"]
+height = 1.8
+radius = 0.02
+
+[sub_resource type="CylinderShape3D" id="line_col"]
+height = 1.2
+radius = 0.003
+
+[sub_resource type="CylinderShape3D" id="hook_col"]
+height = 0.08
+radius = 0.015
+
+[sub_resource type="CylinderShape3D" id="reel_col"]
+height = 0.04
+radius = 0.05
 
 [node name="FishingRod" type="Node3D"]
 
 [node name="Handle" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2, 0)
-mesh = ExtResource("1_cylinder")
-surface_material_override/0 = SubResource("StandardMaterial3D_handle")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+mesh = SubResource("handle_mesh")
+surface_material_override/0 = SubResource("handle_mat")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Handle"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Handle/StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
-shape = ExtResource("1_cylinder_col")
+shape = SubResource("handle_col")
 
 [node name="Rod" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0, 0, 1, 0.1, 0.15, 0)
-mesh = ExtResource("2_cylinder_thin")
-surface_material_override/0 = SubResource("StandardMaterial3D_rod")
+transform = Transform3D(0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0, 0, 1, 0.15, 0.2, 0)
+mesh = SubResource("rod_mesh")
+surface_material_override/0 = SubResource("rod_mat")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Rod"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Rod/StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
-shape = ExtResource("2_cylinder_thin_col")
+shape = SubResource("rod_col")
 
 [node name="Line" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0, 0, 1, 0.5, -0.15, 0)
-mesh = ExtResource("3_cylinder_very_thin")
-surface_material_override/0 = SubResource("StandardMaterial3D_line")
+transform = Transform3D(0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0, 0, 1, 0.55, -0.1, 0)
+mesh = SubResource("line_mesh")
+surface_material_override/0 = SubResource("line_mat")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Line"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Line/StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
-shape = ExtResource("3_cylinder_very_thin_col")
+shape = SubResource("line_col")
 
 [node name="Hook" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0, 0, 1, 0.7, -0.35, 0)
-mesh = ExtResource("4_hook")
-surface_material_override/0 = SubResource("StandardMaterial3D_hook")
+transform = Transform3D(0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0, 0, 1, 0.75, -0.3, 0)
+mesh = SubResource("hook_mesh")
+surface_material_override/0 = SubResource("hook_mat")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Hook"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Hook/StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
-shape = ExtResource("4_hook_col")
+shape = SubResource("hook_col")
 
 [node name="Reel" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.05, -0.1, 0)
-mesh = ExtResource("5_box_small")
-surface_material_override/0 = SubResource("StandardMaterial3D_handle")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.05, 0, 0)
+mesh = SubResource("reel_mesh")
+surface_material_override/0 = SubResource("handle_mat")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Reel"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Reel/StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
-shape = ExtResource("5_box_small_col")
+shape = SubResource("reel_col")

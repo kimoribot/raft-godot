@@ -1,58 +1,110 @@
-[gd_scene load_steps=2 format=3 uid="uid://c8kqx2v3m5rfd"]
+[gd_scene load_steps=5 format=3 uid="uid://item_harpoon"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wood"]
-albedo_color = Color(0.545, 0.357, 0.169, 1)
+[sub_resource type="StandardMaterial3D" id="wood_mat"]
+albedo_color = Color(0.45, 0.3, 0.15, 1)
+roughness = 0.8
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_metal"]
+[sub_resource type="StandardMaterial3D" id="metal_mat"]
 albedo_color = Color(0.7, 0.7, 0.75, 1)
-metallic = 0.8
-roughness = 0.3
+metalness = 0.9
+roughness = 0.2
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rope"]
-albedo_color = Color(0.6, 0.5, 0.3, 1)
+[sub_resource type="StandardMaterial3D" id="rope_mat"]
+albedo_color = Color(0.55, 0.45, 0.3, 1)
+roughness = 0.9
+
+[sub_resource type="StandardMaterial3D" id="flame_mat"]
+albedo_color = Color(1, 0.5, 0.1, 1)
+emission_enabled = true
+emission = Color(1, 0.4, 0.05, 1)
+emission_energy_multiplier = 3.0
+
+[sub_resource type="CylinderMesh" id="handle_mesh"]
+top_radius = 0.04
+bottom_radius = 0.05
+height = 0.6
+
+[sub_resource type="CylinderMesh" id="barrel_mesh"]
+top_radius = 0.06
+bottom_radius = 0.06
+height = 0.8
+
+[sub_resource type="CylinderMesh" id="rope_mesh"]
+top_radius = 0.01
+bottom_radius = 0.01
+height = 0.5
+
+[sub_resource type="CylinderMesh" id="tip_mesh"]
+top_radius = 0.0
+bottom_radius = 0.04
+height = 0.3
+
+[sub_resource type="SphereMesh" id="flame_mesh"]
+radius = 0.15
+height = 0.3
+
+[sub_resource type="CylinderShape3D" id="handle_col"]
+height = 0.6
+radius = 0.05
+
+[sub_resource type="CylinderShape3D" id="barrel_col"]
+height = 0.8
+radius = 0.06
+
+[sub_resource type="CylinderShape3D" id="rope_col"]
+height = 0.5
+radius = 0.01
+
+[sub_resource type="CylinderShape3D" id="tip_col"]
+height = 0.3
+radius = 0.04
+
+[sub_resource type="SphereShape3D" id="flame_col"]
+radius = 0.15
 
 [node name="Harpoon" type="Node3D"]
 
 [node name="Handle" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
-mesh = ExtResource("1_cylinder")
-surface_material_override/0 = SubResource("StandardMaterial3D_wood")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3, 0, 0)
+mesh = SubResource("handle_mesh")
+surface_material_override/0 = SubResource("wood_mat")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Handle"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Handle/StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
-shape = ExtResource("1_cylinder_col")
+shape = SubResource("handle_col")
 
 [node name="Barrel" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 0.05, 0)
-mesh = ExtResource("2_box")
-surface_material_override/0 = SubResource("StandardMaterial3D_metal")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1, 0, 0)
+mesh = SubResource("barrel_mesh")
+surface_material_override/0 = SubResource("metal_mat")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Barrel"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Barrel/StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
-shape = ExtResource("2_box_col")
+shape = SubResource("barrel_col")
 
 [node name="Rope" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1, 0, 0)
-mesh = ExtResource("3_cylinder_thin")
-surface_material_override/0 = SubResource("StandardMaterial3D_rope")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, 0)
+mesh = SubResource("rope_mesh")
+surface_material_override/0 = SubResource("rope_mat")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Rope"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Rope/StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
-shape = ExtResource("3_cylinder_thin_col")
+shape = SubResource("rope_col")
 
 [node name="Tip" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.65, 0.05, 0)
-mesh = ExtResource("4_cone")
-surface_material_override/0 = SubResource("StandardMaterial3D_metal")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, 0, 0)
+mesh = SubResource("tip_mesh")
+surface_material_override/0 = SubResource("metal_mat")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Tip"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Tip/StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
-shape = ExtResource("4_cone_col")
+shape = SubResource("tip_col")
+
+[node name="Flame" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.75, 0.1, 0)
+mesh = SubResource("flame_mesh")
+surface_material_override/0 = SubResource("flame_mat")
