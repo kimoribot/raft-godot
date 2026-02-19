@@ -215,7 +215,7 @@ func _set_default_melee_data() -> void:
 		},
 		MeleeWeapon.AXE: {
 			"name": "Axe",
-			"damage": 45.0,
+			"damage": 30.0,
 			"damage_type": DamageType.SLASHING,
 			"range": 2.0,
 			"attack_speed": 0.8,
@@ -244,7 +244,7 @@ func _set_default_ranged_data() -> void:
 		},
 		RangedWeapon.FLARE_GUN: {
 			"name": "Flare Gun",
-			"damage": 20.0,
+			"damage": 10.0,
 			"damage_type": DamageType.BLUNT,
 			"range": 15.0,
 			"fire_rate": 3.0,
@@ -316,16 +316,16 @@ func _setup_weapon_tiers() -> void:
 			"color": Color.SILVER
 		},
 		WeaponTier.TITANIUM: {
-			"damage_multiplier": 2.5,
-			"durability_multiplier": 2.5,
+			"damage_multiplier": 2.0,
+			"durability_multiplier": 2.0,
 			"crit_bonus": 0.1,
 			"speed_bonus": 1.2,
 			"special_effect": "titanium",
 			"color": Color.CYAN
 		},
 		WeaponTier.PLASMA: {
-			"damage_multiplier": 4.0,
-			"durability_multiplier": 3.0,
+			"damage_multiplier": 3.0,
+			"durability_multiplier": 2.5,
 			"crit_bonus": 0.2,
 			"speed_bonus": 1.3,
 			"special_effect": "plasma_burn",
