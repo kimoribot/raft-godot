@@ -167,3 +167,46 @@ mesh = SubResource("crate_mesh")
 
 [node name="Collision" type="CollisionShape3D" parent="Crate2"]
 shape = SubResource("crate_shape")
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="Panel" type="PanelContainer" parent="HUD"]
+anchors_preset = 15
+anchor_right = 1.0
+offset_bottom = 80.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="HBox" type="HBoxContainer" parent="HUD/Panel"]
+layout_mode = 2
+
+[node name="HealthLabel" type="Label" parent="HUD/Panel/HBox"]
+layout_mode = 2
+text = "Health: 100"
+
+[node name="HungerLabel" type="Label" parent="HUD/Panel/HBox"]
+layout_mode = 2
+text = "Hunger: 100"
+
+[node name="ThirstLabel" type="Label" parent="HUD/Panel/HBox"]
+layout_mode = 2
+text = "Thirst: 100"
+
+[node name="InventoryLabel" type="Label" parent="HUD/Panel/HBox"]
+layout_mode = 2
+text = "Inventory: Empty"
+
+[node name="MessageLabel" type="Label" parent="HUD"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -50.0
+offset_right = 200.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_alignment = 1
+vertical_alignment = 1
