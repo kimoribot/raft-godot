@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://game_world"]
+[gd_scene load_steps=11 format=3 uid="uid://game_world"]
 
 [ext_resource type="Script" path="res://entities/player_controller.gd" id="1_player"]
 
@@ -19,22 +19,50 @@ height = 1.8
 [sub_resource type="BoxMesh" id="raft_mesh"]
 size = Vector3(4, 0.25, 4)
 
+[sub_resource type="CylinderMesh" id="log_mesh"]
+top_radius = 0.15
+bottom_radius = 0.12
+height = 4.5
+
+[sub_resource type="CylinderShape3D" id="log_shape"]
+radius = 0.15
+height = 4.5
+
 [node name="GameWorld" type="Node3D"]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.866025, -0.353553, 0.353553, 0, 0.707107, 0.707107, -0.5, -0.612372, 0.612372, 0, 50, 0)
+shadow_enabled = true
 
 [node name="Ocean" type="MeshInstance3D" parent="."]
 mesh = SubResource("ocean_mesh")
 
 [node name="RaftFloor" type="StaticBody3D" parent="."]
 
-[node name="Mesh" type="MeshInstance3D" parent="RaftFloor"]
+[node name="Floor" type="MeshInstance3D" parent="RaftFloor"]
 mesh = SubResource("raft_mesh")
 
 [node name="Collision" type="CollisionShape3D" parent="RaftFloor"]
 shape = SubResource("raft_shape")
 
+[node name="Log1" type="MeshInstance3D" parent="RaftFloor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.7, 0.2, 0)
+mesh = SubResource("log_mesh")
+
+[node name="Log2" type="MeshInstance3D" parent="RaftFloor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.7, 0.2, 0)
+mesh = SubResource("log_mesh")
+
+[node name="Log3" type="MeshInstance3D" parent="RaftFloor"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 0, 0.2, -1.7)
+mesh = SubResource("log_mesh")
+
+[node name="Log4" type="MeshInstance3D" parent="RaftFloor"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 0, 0.2, 1.7)
+mesh = SubResource("log_mesh")
+
 [node name="Player" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 script = ExtResource("1_player")
 
 [node name="Collision" type="CollisionShape3D" parent="Player"]
@@ -44,4 +72,5 @@ shape = SubResource("player_shape")
 mesh = SubResource("player_mesh")
 
 [node name="Camera" type="Camera3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 0.9, 0.436, 0, -0.436, 0.9, 0, 1.6, 0)
 current = true
