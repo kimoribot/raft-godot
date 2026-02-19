@@ -1,0 +1,247 @@
+[gd_scene load_steps=9 format=3 uid="uid://mobile_controls"]
+
+[ext_resource type="Script" path="res://ui/mobile_controls.gd" id="1"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_joystick_base"]
+bg_color = Color(0.15, 0.15, 0.18, 0.7)
+corner_radius_left = 50
+corner_radius_top = 50
+corner_radius_right = 50
+corner_radius_bottom = 50
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.4, 0.4, 0.45, 0.8)
+shadow_color = Color(0, 0, 0, 0.3)
+shadow_size = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_joystick_thumb"]
+bg_color = Color(0.3, 0.6, 0.9, 0.9)
+corner_radius_left = 30
+corner_radius_top = 30
+corner_radius_right = 30
+corner_radius_bottom = 30
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_action_button"]
+bg_color = Color(0.2, 0.5, 0.3, 0.85)
+corner_radius_left = 35
+corner_radius_top = 35
+corner_radius_right = 35
+corner_radius_bottom = 35
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.4, 0.8, 0.5, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hook_button"]
+bg_color = Color(0.5, 0.35, 0.2, 0.85)
+corner_radius_left = 35
+corner_radius_top = 35
+corner_radius_right = 35
+corner_radius_bottom = 35
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.8, 0.6, 0.3, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_inventory_button"]
+bg_color = Color(0.35, 0.35, 0.5, 0.85)
+corner_radius_left = 35
+corner_radius_top = 35
+corner_radius_right = 35
+corner_radius_bottom = 35
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.6, 0.6, 0.8, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_crafting_button"]
+bg_color = Color(0.45, 0.3, 0.5, 0.85)
+corner_radius_left = 35
+corner_radius_top = 35
+corner_radius_right = 35
+corner_radius_bottom = 35
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.7, 0.5, 0.75, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pause_button"]
+bg_color = Color(0.4, 0.4, 0.4, 0.85)
+corner_radius_left = 25
+corner_radius_top = 25
+corner_radius_right = 25
+corner_radius_bottom = 25
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.7, 0.7, 0.7, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_button_hover"]
+bg_color = Color(0.25, 0.25, 0.3, 0.9)
+corner_radius_left = 35
+corner_radius_top = 35
+corner_radius_right = 35
+corner_radius_bottom = 35
+
+[node name="MobileControls" type="CanvasLayer"]
+layer = 100
+script = ExtResource("1")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="JoystickBase" type="TextureRect" parent="Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 40.0
+offset_top = 100.0
+offset_right = 240.0
+offset_bottom = 300.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_styles/background = SubResource("StyleBoxFlat_joystick_base")
+stretch_mode = 5
+
+[node name="JoystickThumb" type="TextureRect" parent="Control/JoystickBase"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -30.0
+offset_top = -30.0
+offset_right = 30.0
+offset_bottom = 30.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_joystick_thumb")
+stretch_mode = 5
+
+[node name="ActionButton" type="Button" parent="Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 920.0
+offset_top = 440.0
+offset_right = 1020.0
+offset_bottom = 540.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(0.8, 0.8, 0.8, 1)
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBoxFlat_action_button")
+theme_override_styles/hover = SubResource("StyleBoxFlat_button_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_action_button")
+text = "⛰"
+action_mode = 0
+
+[node name="HookButton" type="Button" parent="Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 920.0
+offset_top = 340.0
+offset_right = 1020.0
+offset_bottom = 440.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBoxFlat_hook_button")
+theme_override_styles/hover = SubResource("StyleBoxFlat_button_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_hook_button")
+text = "⚓"
+action_mode = 0
+
+[node name="InventoryButton" type="Button" parent="Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 1020.0
+offset_top = 440.0
+offset_right = 1120.0
+offset_bottom = 540.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBoxFlat_inventory_button")
+theme_override_styles/hover = SubResource("StyleBoxFlat_button_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_inventory_button")
+text = "📦"
+action_mode = 0
+
+[node name="CraftingButton" type="Button" parent="Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 1020.0
+offset_top = 340.0
+offset_right = 1120.0
+offset_bottom = 440.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBoxFlat_crafting_button")
+theme_override_styles/hover = SubResource("StyleBoxFlat_button_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_crafting_button")
+text = "🔨"
+action_mode = 0
+
+[node name="PauseButton" type="Button" parent="Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 1020.0
+offset_top = 20.0
+offset_right = 1100.0
+offset_bottom = 100.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBoxFlat_pause_button")
+theme_override_styles/hover = SubResource("StyleBoxFlat_button_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_pause_button")
+text = "☰"
+action_mode = 0

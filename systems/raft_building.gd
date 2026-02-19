@@ -591,10 +591,21 @@ func _get_item_count(item_type) -> int:
 	if not inventory_system:
 		return 0
 	
+	# Handle Recipes.ItemType enum - convert to string key
+	var item_key = item_type
+	if item_type is Recipes.ItemType:
+		item_key = Recipes.get_item_type_name(item_type).to_lower()
+		# Try direct enum lookup first
+		if inventory_system.has_method("get_item_count"):
+			return inventory_system.get_item_count(item_type)
+	
+	# Try as string key
 	if inventory_system.has_method("get_item_count"):
-		return inventory_system.get_item_count(item_type)
+		return inventory_system.get_item_count(item_key)
 	elif inventory_system.has_method("get_item_quantity"):
-		return inventory_system.get_item_quantity(item_type)
+		return inventory_system.get_item_quantity(item_key)
+	elif inventory_system.has("items"):
+		return inventory_system.items.get(item_key, 0)
 	return 0
 
 

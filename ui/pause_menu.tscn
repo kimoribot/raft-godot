@@ -1,0 +1,229 @@
+[gd_scene load_steps=12 format=3 uid="uid://pause_menu"]
+
+[ext_resource type="Shader" path="res://shaders/ocean.gdshader" id="1_ocean"]
+[ext_resource type="Shader" path="res://shaders/sky.gdshader" id="2_sky"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ocean"]
+render_priority = 0
+shader = ExtResource("1_ocean")
+shader_parameter/albedo = Color(0.02, 0.15, 0.35, 1)
+shader_parameter/foam_color = Color(0.9, 0.95, 1, 1)
+shader_parameter/deep_color = Color(0, 0.05, 0.15, 1)
+shader_parameter/shallow_color = Color(0.1, 0.4, 0.5, 1)
+shader_parameter/wave_speed = 0.5
+shader_parameter/wave_height = 0.3
+shader_parameter/wave_frequency = 1.0
+shader_parameter/foam_threshold = 0.7
+shader_parameter/foam_amount = 0.4
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sky"]
+render_priority = 0
+shader = ExtResource("2_sky")
+shader_parameter/time_of_day = 14.0
+shader_parameter/day_duration = 60.0
+shader_parameter/day_top_color = Color(0.25, 0.55, 0.9, 1)
+shader_parameter/day_bottom_color = Color(0.6, 0.8, 1, 1)
+shader_parameter/sunset_top_color = Color(0.4, 0.2, 0.3, 1)
+shader_parameter/sunset_bottom_color = Color(1, 0.5, 0.2, 1)
+shader_parameter/night_top_color = Color(0.02, 0.03, 0.1, 1)
+shader_parameter/night_bottom_color = Color(0.05, 0.08, 0.15, 1)
+
+[sub_resource type="QuadMesh" id="QuadMesh_ocean"]
+size = Vector2(200, 200)
+
+[sub_resource type="QuadMesh" id="QuadMesh_sky"]
+size = Vector2(2, 2)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+bg_color = Color(0.05, 0.1, 0.18, 0.92)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.3, 0.5, 0.65, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+shadow_color = Color(0, 0.2, 0.3, 0.5)
+shadow_size = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_button"]
+bg_color = Color(0.1, 0.18, 0.28, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.35, 0.55, 0.7, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+shadow_color = Color(0, 0.15, 0.25, 0.4)
+shadow_size = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_button_hover"]
+bg_color = Color(0.15, 0.28, 0.42, 0.98)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.5, 0.7, 0.85, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+shadow_color = Color(0, 0.2, 0.35, 0.5)
+shadow_size = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_button_pressed"]
+bg_color = Color(0.08, 0.14, 0.22, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.25, 0.45, 0.6, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_title_bg"]
+bg_color = Color(0.08, 0.15, 0.25, 0.85)
+border_width_bottom = 2
+border_color = Color(0.3, 0.5, 0.65, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 0
+corner_radius_bottom_left = 0
+
+[node name="PauseMenu" type="CanvasLayer"]
+layer = 100
+
+[node name="BackgroundDim" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.02, 0.05, 0.1, 0.7)
+
+[node name="ParallaxBackground" type="CanvasLayer" parent="."]
+layer = -5
+
+[node name="Sky" type="MeshInstance3D" parent="ParallaxBackground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 50, -100)
+material_override = SubResource("ShaderMaterial_sky")
+mesh = SubResource("QuadMesh_sky")
+
+[node name="Ocean" type="MeshInstance3D" parent="ParallaxBackground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5, 0)
+material_override = SubResource("ShaderMaterial_ocean")
+mesh = SubResource("QuadMesh_ocean")
+
+[node name="MenuPanel" type="PanelContainer" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -180.0
+offset_top = -220.0
+offset_right = 180.0
+offset_bottom = 220.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="VBox" type="VBoxContainer" parent="MenuPanel"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="TitleBar" type="PanelContainer" parent="MenuPanel/VBox"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_title_bg")
+
+[node name="Title" type="Label" parent="MenuPanel/VBox/TitleBar"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.95, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0.2, 0.35, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 32
+text = "⏸  PAUSED"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Spacer" type="Control" parent="MenuPanel/VBox"]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+
+[node name="ResumeButton" type="Button" parent="MenuPanel/VBox"]
+custom_minimum_size = Vector2(280, 52)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.98, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 22
+theme_override_styles/normal = SubResource("StyleBoxFlat_button")
+theme_override_styles/hover = SubResource("StyleBoxFlat_button_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_button_pressed")
+text = "▶  Resume"
+
+[node name="SaveGameButton" type="Button" parent="MenuPanel/VBox"]
+custom_minimum_size = Vector2(280, 52)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.95, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 22
+theme_override_styles/normal = SubResource("StyleBoxFlat_button")
+theme_override_styles/hover = SubResource("StyleBoxFlat_button_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_button_pressed")
+text = "💾  Save Game"
+
+[node name="LoadGameButton" type="Button" parent="MenuPanel/VBox"]
+custom_minimum_size = Vector2(280, 52)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.9, 0.98, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 22
+theme_override_styles/normal = SubResource("StyleBoxFlat_button")
+theme_override_styles/hover = SubResource("StyleBoxFlat_button_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_button_pressed")
+text = "📂  Load Game"
+
+[node name="SettingsButton" type="Button" parent="MenuPanel/VBox"]
+custom_minimum_size = Vector2(280, 52)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.85, 0.95, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 22
+theme_override_styles/normal = SubResource("StyleBoxFlat_button")
+theme_override_styles/hover = SubResource("StyleBoxFlat_button_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_button_pressed")
+text = "⚙  Settings"
+
+[node name="Divider" type="HSeparator" parent="MenuPanel/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="MainMenuButton" type="Button" parent="MenuPanel/VBox"]
+custom_minimum_size = Vector2(280, 52)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.75, 0.85, 1)
+theme_override_colors/font_hover_color = Color(1, 0.7, 0.7, 1)
+theme_override_font_sizes/font_size = 22
+theme_override_styles/normal = SubResource("StyleBoxFlat_button")
+theme_override_styles/hover = SubResource("StyleBoxFlat_button_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_button_pressed")
+text = "🚪  Main Menu"
+
+[node name="Spacer2" type="Control" parent="MenuPanel/VBox"]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+
+[node name="HintLabel" type="Label" parent="MenuPanel/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5, 0.6, 0.7, 0.8)
+theme_override_font_sizes/font_size = 12
+text = "Press ESC to resume"
+horizontal_alignment = 1
