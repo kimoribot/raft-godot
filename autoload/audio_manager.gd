@@ -45,7 +45,6 @@ func _setup_audio_players() -> void:
 	ambience_player.name = "AmbiencePlayer"
 	ambience_player.bus = "Ambience"
 	ambience_player.volume_db = linear_to_db(ambience_volume)
-	ambience_player.loop = true
 	add_child(ambience_player)
 	
 	# Create audio buses if needed
