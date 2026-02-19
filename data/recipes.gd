@@ -1,8 +1,6 @@
-#ifndef RECIPES_GD
 #define RECIPES_GD
 
-class_name Recipes
-extends RefCounted
+extends Node
 
 ## Recipe Database for Raft Game
 ## Balanced for 50-hour gameplay with progression-based unlocks

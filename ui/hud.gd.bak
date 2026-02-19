@@ -1,0 +1,99 @@
+extends CanvasLayer
+class_name HUD
+
+## Main HUD for Raft game
+## Shows health, hunger, thirst, and inventory
+
+@onready var health_bar: ProgressBar = $VBoxContainer/StatsPanel/HealthBar
+@onready var hunger_bar: ProgressBar = $VBoxContainer/StatsPanel/HungerBar
+@onready var thirst_bar: ProgressBar = $VBoxContainer/StatsPanel/ThirstBar
+@onready var inventory_grid: GridContainer = $VBoxContainer/InventoryPanel/InventoryGrid
+
+var player: Node = null
+var inventory: Node = null
+
+func _ready() -> void:
+	# Find player
+	await get_tree().create_timer(0.5).timeout
+	_find_nodes()
+	
+	# Connect to inventory updates
+	if inventory and inventory.has_signal("inventory_updated"):
+		inventory.inventory_updated.connect(_on_inventory_updated)
+	
+	# Initial update
+	_update_all()
+
+func _find_nodes() -> void:
+	player = get_tree().get_first_node_in_group("player")
+	inventory = get_tree().get_first_node_in_group("inventory")
+	
+	if player:
+		print("HUD: Found player")
+	if inventory:
+		print("HUD: Found inventory")
+
+func _process(delta: float) -> void:
+	if player:
+		_update_stats()
+		_update_hook_indicator()
+
+func _update_stats() -> void:
+	if player == null:
+		return
+	
+	# Update health bar
+	if health_bar:
+		health_bar.value = player.health
+	
+	# Update hunger bar
+	if hunger_bar:
+		hunger_bar.value = player.hunger
+	
+	# Update thirst bar
+	if thirst_bar:
+		thirst_bar.value = player.thirst
+
+func _update_hook_indicator() -> void:
+	# Could add hook cooldown indicator here
+	pass
+
+func _on_inventory_updated() -> void:
+	if inventory == null:
+		return
+	
+	# Rebuild inventory display
+	if inventory_grid:
+		# Clear existing
+		for child in inventory_grid.get_children():
+			child.queue_free()
+		
+		# Add items
+		var items = inventory.get_all_items()
+		for item_type in items.keys():
+			var count = items[item_type]
+			_add_inventory_slot(item_type, count)
+
+func _add_inventory_slot(item_type, count: int) -> void:
+	var slot = VBoxContainer.new()
+	
+	var label = Label.new()
+	label.text = str(item_type) + ": " + str(count)
+	label.add_theme_font_size_override("font_size", 14)
+	slot.add_child(label)
+	
+	inventory_grid.add_child(slot)
+
+func _update_all() -> void:
+	_update_stats()
+	_on_inventory_updated()
+
+func _input(event: InputEvent) -> void:
+	# Toggle inventory with Tab
+	if event.is_action_pressed("ui_cancel"):
+		_toggle_inventory_panel()
+
+func _toggle_inventory_panel() -> void:
+	var panel = $VBoxContainer/InventoryPanel
+	if panel:
+		panel.visible = not panel.visible

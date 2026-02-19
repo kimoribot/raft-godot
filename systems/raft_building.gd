@@ -4,7 +4,7 @@ class_name RaftBuildingSystem
 ## Main building system for Raft
 ## Handles grid-based placement, preview, physics integration, and tile management
 
-signal tile_placed(tile: RaftTile, grid_pos: Vector2i)
+signal tile_placed(tile: Node, grid_pos: Vector2i)
 signal tile_removed(grid_pos: Vector2i)
 signal build_mode_started(item_type: String)
 signal build_mode_cancelled
@@ -812,7 +812,7 @@ func _get_item_type_string(tile_type) -> String:
 
 # ========== PHYSICS INTEGRATION ==========
 
-func register_tile_with_raft(tile: RaftTile, grid_pos: Vector2i) -> void:
+func register_tile_with_raft(tile: Node, grid_pos: Vector2i) -> void:
 	placed_tiles[grid_pos] = tile
 	_update_valid_placement_positions()
 

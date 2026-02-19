@@ -1,5 +1,4 @@
 extends RigidBody3D
-class_name RaftTile
 ## Individual building piece (foundation, bed, etc.)
 ## RigidBody3D that can connect to raft
 ## Can be damaged by shark and falls away when destroyed

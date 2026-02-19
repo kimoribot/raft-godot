@@ -36,12 +36,12 @@ var smoothed_center_offset: Vector3 = Vector3.ZERO
 
 #== TILE CONNECTION CLASS ==#
 class TileConnection:
-	var tile_a: RaftTile
-	var tile_b: RaftTile
+	var tile_a: Node
+	var tile_b: Node
 	var grid_distance: int
 	var connection_strength: float
 	
-	func _init(t_a: RaftTile, t_b: RaftTile, dist: int):
+	func _init(t_a: Node, t_b: Node, dist: int):
 		tile_a = t_a
 		tile_b = t_b
 		grid_distance = dist
@@ -173,7 +173,7 @@ func _distribute_wave_forces(delta: float) -> void:
 	# Apply distributed force to raft
 	main_raft.apply_central_force(total_wave_force)
 
-func _calculate_wave_torque(tile: RaftTile, wave_info: Dictionary) -> Vector3:
+func _calculate_wave_torque(tile: Node, wave_info: Dictionary) -> Vector3:
 	var world_pos = tile.global_position
 	var center = main_raft.global_position
 	
@@ -320,18 +320,18 @@ func _calculate_grid_distance(pos_a: Vector2i, pos_b: Vector2i) -> int:
 
 #== SIGNAL HANDLERS ==#
 
-func _on_tile_added(tile: RaftTile) -> void:
+func _on_tile_added(tile: Node) -> void:
 	_rebuild_connections()
 	tiles_updated.emit(main_raft.get_connected_tiles().size())
 
-func _on_tile_removed(tile: RaftTile) -> void:
+func _on_tile_removed(tile: Node) -> void:
 	# Remove connections involving this tile
 	tile_connections = tile_connections.filter(
 		func(c): return c.tile_a != tile and c.tile_b != tile
 	)
 	tiles_updated.emit(main_raft.get_connected_tiles().size())
 
-func _on_tile_destroyed(tile: RaftTile) -> void:
+func _on_tile_destroyed(tile: Node) -> void:
 	_on_tile_removed(tile)
 
 #== PUBLIC API ==#
@@ -353,7 +353,7 @@ func get_tile_at_grid(grid_pos: Vector2i) -> RaftTile:
 		return null
 	return main_raft.get_tile_at(grid_pos)
 
-func get_adjacent_tiles(tile: RaftTile) -> Array[RaftTile]:
+func get_adjacent_tiles(tile: Node) -> Array[RaftTile]:
 	var adjacent: Array[RaftTile] = []
 	var tiles = main_raft.get_connected_tiles()
 	

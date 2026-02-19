@@ -1,5 +1,4 @@
 extends Node3D
-class_name WaterPhysics
 
 ## Gerstner Wave System for realistic 3D ocean
 
@@ -18,6 +17,10 @@ func _ready() -> void:
 		{"direction": Vector2(1, -0.4).normalized(), "steepness": 0.15, "wavelength": 18.0},
 		{"direction": Vector2(0.7, 1).normalized(), "steepness": 0.1, "wavelength": 10.0}
 	]
+	
+	# Add to groups for easy lookup
+	add_to_group("water")
+	add_to_group("WaterPhysics")
 
 func _process(delta: float) -> void:
 	# Update time-based wave animation

@@ -4,9 +4,9 @@ class_name Raft
 ## Compound RigidBody - all tiles move together
 ## Uses WaterPhysics to float on ocean waves
 
-signal tile_added(tile: RaftTile)
-signal tile_removed(tile: RaftTile)
-signal tile_destroyed(tile: RaftTile)
+signal tile_added(tile: Node)
+signal tile_removed(tile: Node)
+signal tile_destroyed(tile: Node)
 signal raft_moved(direction: Vector3)
 signal health_changed(new_health: float)
 
@@ -38,9 +38,9 @@ signal health_changed(new_health: float)
 @onready var mesh_instance: MeshInstance3D = $MeshInstance3D
 
 #== STATE ==#
-var tiles: Array[RaftTile] = []
-var tile_grid: Dictionary = {}  # Vector2i -> RaftTile
-var connected_tiles: Array[RaftTile] = []
+var tiles: Array = []
+var tile_grid: Dictionary = {}  # Vector2i -> Node
+var connected_tiles: Array = []
 var center_of_mass_offset: Vector3 = Vector3.ZERO
 var raft_health: float = max_health
 var is_destroyed: bool = false
@@ -62,6 +62,8 @@ var sample_points: Array[Vector3] = []
 func _ready() -> void:
 	_setup_rigid_body()
 	_initialize_sample_points()
+	add_to_group("raft")
+	add_to_group("water")  # For water physics detection
 	
 	if water_physics == null:
 		# Try to find water physics in scene
@@ -265,7 +267,7 @@ func _smooth_transform(delta: float) -> void:
 
 #== PUBLIC API ==#
 
-func add_tile(tile: RaftTile, grid_position: Vector2i) -> bool:
+func add_tile(tile: Node, grid_position: Vector2i) -> bool:
 	if tiles.size() >= max_tiles:
 		return false
 	
@@ -288,7 +290,7 @@ func add_tile(tile: RaftTile, grid_position: Vector2i) -> bool:
 	tile_added.emit(tile)
 	return true
 
-func remove_tile(tile: RaftTile) -> void:
+func remove_tile(tile: Node) -> void:
 	if not tile in tiles:
 		return
 	
@@ -312,7 +314,7 @@ func remove_tile(tile: RaftTile) -> void:
 	
 	tile_removed.emit(tile)
 
-func destroy_tile(tile: RaftTile) -> void:
+func destroy_tile(tile: Node) -> void:
 	if not tile in connected_tiles:
 		return
 	
@@ -328,13 +330,13 @@ func destroy_tile(tile: RaftTile) -> void:
 	
 	tile_destroyed.emit(tile)
 
-func get_tile_at(grid_pos: Vector2i) -> RaftTile:
+func get_tile_at(grid_pos: Vector2i) -> Node:
 	return tile_grid.get(grid_pos)
 
-func get_connected_tiles() -> Array[RaftTile]:
+func get_connected_tiles() -> Array:
 	return connected_tiles.duplicate()
 
-func get_center_of_mass() -> Vector3:
+func get_raft_center() -> Vector3:
 	return global_position + center_of_mass_offset
 
 func is_position_occupied(grid_pos: Vector2i) -> bool:

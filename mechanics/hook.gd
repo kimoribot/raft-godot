@@ -16,8 +16,8 @@ var throw_direction: Vector3 = Vector3.FORWARD
 var target_position: Vector3 = Vector3.ZERO
 var current_target: Node3D = null
 
-@onready var player: Node3D = get_parent()
-@onready var water_physics: WaterPhysics = get_tree().get_first_node_in_group("water")
+var player: Node3D = null
+var water_physics: WaterPhysics = null
 
 # Detection area
 var detection_area: Area3D = null
@@ -25,7 +25,7 @@ var detection_area: Area3D = null
 # Visual components
 var hook_mesh: MeshInstance3D = null
 var rope_mesh: MeshInstance3D = null
-var trail_particles: GPUParticles3D = nil
+var trail_particles: GPUParticles3D
 
 # Audio
 var throw_sound: AudioStreamPlayer3D = null
@@ -34,6 +34,12 @@ var retract_sound: AudioStreamPlayer3D = null
 
 func _ready() -> void:
 	add_to_group("hook")
+	
+	# Get player and water physics references
+	player = get_parent()
+	water_physics = get_tree().get_first_node_in_group("WaterPhysics")
+	if water_physics == null:
+		water_physics = get_tree().get_first_node_in_group("water")
 	
 	_setup_detection_area()
 	_setup_visuals()

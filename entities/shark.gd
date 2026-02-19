@@ -1,5 +1,4 @@
 extends CharacterBody3D
-class_name Shark
 
 enum State { PATROL, CHASE, ATTACK, RETREAT }
 
@@ -176,7 +175,7 @@ func _check_raft_collision(delta: float) -> void:
 						raft_attack_timer = raft_attack_cooldown
 						return
 
-func _attack_raft_tile(tile: RaftTile) -> void:
+func _attack_raft_tile(tile: Node) -> void:
 	if tile.has_method("damage"):
 		tile.damage(raft_attack_damage, self)
 		

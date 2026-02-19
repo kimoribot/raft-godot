@@ -5,7 +5,7 @@ class_name BuildingManager
 ## Handles tile registry, save/load, destruction, and physics integration
 ## Works with RaftBuildingSystem for placement logic
 
-signal tile_registered(tile: RaftTile, grid_pos: Vector2i)
+signal tile_registered(tile: Node, grid_pos: Vector2i)
 signal tile_unregistered(grid_pos: Vector2i)
 signal tile_destroyed(grid_pos: Vector2i, position: Vector3)
 signal all_tiles_loaded(tile_count: int)
@@ -74,7 +74,7 @@ func _physics_process(delta: float) -> void:
 
 # ========== TILE REGISTRATION ==========
 
-func register_tile(tile: RaftTile, grid_pos: Vector2i) -> bool:
+func register_tile(tile: Node, grid_pos: Vector2i) -> bool:
 	if not is_instance_valid(tile):
 		return false
 	
@@ -141,7 +141,7 @@ func unregister_tile(grid_pos: Vector2i, keep_physics: bool = false) -> bool:
 	return true
 
 
-func _get_tile_type_key(tile: RaftTile) -> String:
+func _get_tile_type_key(tile: Node) -> String:
 	match tile.tile_type:
 		RaftTile.TileType.FOUNDATION: return "foundation"
 		RaftTile.TileType.BED: return "bed"
@@ -251,7 +251,7 @@ func _check_raft_integrity() -> void:
 				_disconnect_orphaned_tile(tile, grid_pos)
 
 
-func _disconnect_orphaned_tile(tile: RaftTile, grid_pos: Vector2i) -> void:
+func _disconnect_orphaned_tile(tile: Node, grid_pos: Vector2i) -> void:
 	# Orphaned tiles drift away
 	if is_instance_valid(tile):
 		tile.disconnect_from_raft()
@@ -411,7 +411,7 @@ func get_adjacent_tiles(grid_pos: Vector2i) -> Array[RaftTile]:
 
 
 func get_nearest_tile(world_pos: Vector3) -> RaftTile:
-	var nearest: RaftTile = null
+	var nearest: Node = null
 	var nearest_dist = INF
 	
 	for tile in tiles_by_grid.values():

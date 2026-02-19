@@ -1,5 +1,4 @@
 extends RigidBody3D
-class_name FloatingDebris
 
 ## Floating Debris - 3D floating objects that bob with waves and drift with currents
 ## Supports: logs, barrels, crates, palm debris, supply bundles
@@ -36,9 +35,7 @@ var time_offset: float = 0.0
 var current_drift: Vector3 = Vector3.ZERO
 var spawn_time: float = 0.0
 
-## Collision detection
-var collision_layer: int = 1
-var collision_mask: int = 1
+## Collision detection - use RigidBody3D built-in properties
 
 ## Audio
 var splash_sound: AudioStreamPlayer3D = null
@@ -51,9 +48,13 @@ var collect_sound: AudioStreamPlayer3D = null
 func _ready() -> void:
 	add_to_group("floating_debris")
 	add_to_group("collectible")
+	add_to_group("water")
 	
 	# Get water physics reference
 	water_physics = get_tree().get_first_node_in_group("water")
+	if water_physics == null:
+		water_physics = get_tree().get_first_node_in_group("WaterPhysics")
+	
 	ocean_manager = get_tree().get_first_node_in_group("ocean_manager")
 	
 	# Random time offset for varied bobbing
@@ -78,6 +79,9 @@ func _ready() -> void:
 	# Linear damping for water resistance
 	linear_damp = 2.0
 	angular_damp = 1.0
+	
+	# Start in frozen state until physics is ready
+	freeze = false
 
 
 func _physics_process(delta: float) -> void:

@@ -17,6 +17,7 @@ var max_stack_size: int = 99
 
 func _ready() -> void:
 	add_to_group("inventory")
+	add_to_group("InventorySystem")
 
 
 ## Add item to inventory
@@ -106,10 +107,10 @@ func can_add_item(item_type, count: int = 1) -> bool:
 ## Add starter items (for testing)
 func add_starter_items() -> void:
 	# Give player some basic resources to start building
-	add_item(Recipes.ItemType.WOOD, 50)
-	add_item(Recipes.ItemType.PLASTIC, 20)
-	add_item(Recipes.ItemType.STONE, 10)
-	add_item(Recipes.ItemType.FABRIC, 5)
+	add_item("wood", 50)
+	add_item("plastic", 20)
+	add_item("stone", 10)
+	add_item("fabric", 5)
 
 
 ## Save inventory
