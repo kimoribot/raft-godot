@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://game_world"]
+[gd_scene load_steps=17 format=3 uid="uid://game_world"]
 
 [ext_resource type="Script" path="res://entities/player_controller.gd" id="1_player"]
 
@@ -24,9 +24,29 @@ top_radius = 0.15
 bottom_radius = 0.12
 height = 4.5
 
-[sub_resource type="CylinderShape3D" id="log_shape"]
+[sub_resource type="CylinderMesh" id="driftwood_mesh"]
+top_radius = 0.12
+bottom_radius = 0.08
+height = 2.0
+
+[sub_resource type="CylinderMesh" id="barrel_mesh"]
+top_radius = 0.25
+bottom_radius = 0.28
+height = 0.7
+
+[sub_resource type="BoxMesh" id="crate_mesh"]
+size = Vector3(0.7, 0.5, 0.7)
+
+[sub_resource type="CapsuleShape3D" id="debris_shape"]
 radius = 0.15
-height = 4.5
+height = 2.0
+
+[sub_resource type="CylinderShape3D" id="barrel_shape"]
+radius = 0.28
+height = 0.7
+
+[sub_resource type="BoxShape3D" id="crate_shape"]
+size = Vector3(0.7, 0.5, 0.7)
 
 [node name="GameWorld" type="Node3D"]
 
@@ -74,3 +94,76 @@ mesh = SubResource("player_mesh")
 [node name="Camera" type="Camera3D" parent="Player"]
 transform = Transform3D(1, 0, 0, 0, 0.9, 0.436, 0, -0.436, 0.9, 0, 1.6, 0)
 current = true
+
+[node name="Driftwood1" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0.2, 8)
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+
+[node name="Mesh" type="MeshInstance3D" parent="Driftwood1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("driftwood_mesh")
+
+[node name="Collision" type="CollisionShape3D" parent="Driftwood1"]
+shape = SubResource("debris_shape")
+
+[node name="Driftwood2" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 0.2, 12)
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+
+[node name="Mesh" type="MeshInstance3D" parent="Driftwood2"]
+mesh = SubResource("driftwood_mesh")
+
+[node name="Collision" type="CollisionShape3D" parent="Driftwood2"]
+shape = SubResource("debris_shape")
+
+[node name="Barrel1" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0.3, -15)
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+
+[node name="Mesh" type="MeshInstance3D" parent="Barrel1"]
+mesh = SubResource("barrel_mesh")
+
+[node name="Collision" type="CollisionShape3D" parent="Barrel1"]
+shape = SubResource("barrel_shape")
+
+[node name="Barrel2" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 0.3, -8)
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+
+[node name="Mesh" type="MeshInstance3D" parent="Barrel2"]
+mesh = SubResource("barrel_mesh")
+
+[node name="Collision" type="CollisionShape3D" parent="Barrel2"]
+shape = SubResource("barrel_shape")
+
+[node name="Crate1" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0.25, -20)
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+
+[node name="Mesh" type="MeshInstance3D" parent="Crate1"]
+mesh = SubResource("crate_mesh")
+
+[node name="Collision" type="CollisionShape3D" parent="Crate1"]
+shape = SubResource("crate_shape")
+
+[node name="Crate2" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 0.25, 5)
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+
+[node name="Mesh" type="MeshInstance3D" parent="Crate2"]
+mesh = SubResource("crate_mesh")
+
+[node name="Collision" type="CollisionShape3D" parent="Crate2"]
+shape = SubResource("crate_shape")
