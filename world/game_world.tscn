@@ -1,4 +1,6 @@
-[gd_scene load_steps=7 format=3 uid="uid://game_world"]
+[gd_scene load_steps=8 format=3 uid="uid://game_world"]
+
+[ext_resource type="Script" path="res://entities/player_controller.gd" id="1_player"]
 
 [sub_resource type="QuadMesh" id="ocean_mesh"]
 size = Vector2(200, 200)
@@ -33,6 +35,7 @@ mesh = SubResource("raft_mesh")
 shape = SubResource("raft_shape")
 
 [node name="Player" type="CharacterBody3D" parent="."]
+script = ExtResource("1_player")
 
 [node name="Collision" type="CollisionShape3D" parent="Player"]
 shape = SubResource("player_shape")
