@@ -1,0 +1,178 @@
+[gd_scene load_steps=8 format=3 uid="uid://b8xk3m2cqpvyd"]
+
+[ext_resource type="Shader" path="res://shaders/ocean.gdshader" id="1_ocean"]
+[ext_resource type="Shader" path="res://shaders/sky.gdshader" id="2_sky"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ocean"]
+render_priority = 0
+shader = ExtResource("1_ocean")
+shader_parameter/albedo = Color(0.02, 0.15, 0.35, 1)
+shader_parameter/foam_color = Color(0.9, 0.95, 1, 1)
+shader_parameter/deep_color = Color(0, 0.05, 0.15, 1)
+shader_parameter/shallow_color = Color(0.1, 0.4, 0.5, 1)
+shader_parameter/wave_speed = 0.5
+shader_parameter/wave_height = 0.5
+shader_parameter/wave_frequency = 1.0
+shader_parameter/foam_threshold = 0.7
+shader_parameter/foam_amount = 0.4
+shader_parameter/refraction_strength = 0.1
+shader_parameter/metallic = 0.0
+shader_parameter/roughness = 0.1
+shader_parameter/specular = 0.5
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sky"]
+render_priority = 0
+shader = ExtResource("2_sky")
+shader_parameter/time_of_day = 14.0
+shader_parameter/day_duration = 60.0
+shader_parameter/day_top_color = Color(0.25, 0.55, 0.9, 1)
+shader_parameter/day_bottom_color = Color(0.6, 0.8, 1, 1)
+shader_parameter/sunset_top_color = Color(0.4, 0.2, 0.3, 1)
+shader_parameter/sunset_bottom_color = Color(1, 0.5, 0.2, 1)
+shader_parameter/night_top_color = Color(0.02, 0.03, 0.1, 1)
+shader_parameter/night_bottom_color = Color(0.05, 0.08, 0.15, 1)
+shader_parameter/sun_color = Color(1, 0.95, 0.8, 1)
+shader_parameter/moon_color = Color(0.7, 0.75, 0.9, 1)
+shader_parameter/sun_intensity = 1.5
+shader_parameter/moon_intensity = 0.8
+shader_parameter/cloud_color = Color(1, 1, 1, 1)
+shader_parameter/cloud_shadow_color = Color(0.4, 0.45, 0.55, 1)
+shader_parameter/cloud_density = 0.5
+shader_parameter/cloud_speed = 0.1
+shader_parameter/star_intensity = 0.8
+shader_parameter/star_size = 1.5
+
+[sub_resource type="QuadMesh" id="QuadMesh_ocean"]
+size = Vector2(200, 200)
+
+[sub_resource type="QuadMesh" id="QuadMesh_sky"]
+size = Vector2(2, 2)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_button"]
+bg_color = Color(0.1, 0.15, 0.2, 0.9)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.3, 0.5, 0.6, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+shadow_color = Color(0, 0, 0, 0.3)
+shadow_size = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_button_hover"]
+bg_color = Color(0.15, 0.25, 0.35, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.5, 0.7, 0.8, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+shadow_color = Color(0, 0, 0, 0.4)
+shadow_size = 6
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BackgroundLayer" type="CanvasLayer" parent="."]
+layer = -10
+
+[node name="Sky" type="MeshInstance3D" parent="BackgroundLayer"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 50, -100)
+material_override = SubResource("ShaderMaterial_sky")
+mesh = SubResource("QuadMesh_sky")
+
+[node name="Ocean" type="MeshInstance3D" parent="BackgroundLayer"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5, 0)
+material_override = SubResource("ShaderMaterial_ocean")
+mesh = SubResource("QuadMesh_ocean")
+
+[node name="MenuContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -180.0
+offset_right = 200.0
+offset_bottom = 180.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="MenuContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Title" type="Label" parent="MenuContainer/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.95, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0.2, 0.3, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 48
+text = "RAFT"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Subtitle" type="Label" parent="MenuContainer/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6, 0.75, 0.85, 1)
+theme_override_font_sizes/font_size = 18
+text = "Survive the Open Ocean"
+horizontal_alignment = 1
+
+[node name="Spacer" type="Control" parent="MenuContainer/VBox"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+
+[node name="NewGameButton" type="Button" parent="MenuContainer/VBox"]
+custom_minimum_size = Vector2(300, 50)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.98, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_button")
+theme_override_styles/hover = SubResource("StyleBoxFlat_button_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_button")
+text = "▶  New Game"
+
+[node name="ContinueButton" type="Button" parent="MenuContainer/VBox"]
+custom_minimum_size = Vector2(300, 50)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.85, 0.9, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_button")
+theme_override_styles/hover = SubResource("StyleBoxFlat_button_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_button")
+text = "▶  Continue"
+
+[node name="SettingsButton" type="Button" parent="MenuContainer/VBox"]
+custom_minimum_size = Vector2(300, 50)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.75, 0.8, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_button")
+theme_override_styles/hover = SubResource("StyleBoxFlat_button_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_button")
+text = "⚙  Settings"
+
+[node name="VersionLabel" type="Label" parent="MenuContainer/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.5, 0.6, 0.8)
+theme_override_font_sizes/font_size = 12
+text = "v1.0.0"
+horizontal_alignment = 1
