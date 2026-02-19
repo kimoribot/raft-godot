@@ -482,12 +482,16 @@ func perform_attack(target: Node = null) -> Dictionary:
 	if is_critical and damage_dealt > 0:
 		critical_hit_landed.emit(target, final_damage, final_damage - base_damage)
 	
-	# Set cooldown
+	# Combat feel: attack windup before cooldown (satisfying rhythm)
 	var attack_speed = weapon_data.get("attack_speed", 1.0) * tier_data["speed_bonus"]
-	await get_tree().create_timer(1.0 / attack_speed).timeout
+	var windup_time = 0.1  # Brief windup for feel
+	await get_tree().create_timer(windup_time).timeout
 	
 	set_combat_state(CombatState.IDLE)
 	can_attack = true
+	
+	# Remaining cooldown after windup
+	await get_tree().create_timer(max(0.1, 1.0 / attack_speed - windup_time)).timeout
 	
 	return {
 		"success": true,
@@ -521,12 +525,16 @@ func perform_ranged_attack(target_position: Vector3) -> Dictionary:
 	# Emit attack signal for projectile spawning
 	attack_performed.emit(weapon_data["name"], final_damage, false)
 	
-	# Set cooldown
+	# Combat feel: brief aiming time before firing
 	var fire_rate = weapon_data.get("fire_rate", 1.0)
-	await get_tree().create_timer(1.0 / fire_rate).timeout
+	var aim_time = 0.15  # Brief aim for feel
+	await get_tree().create_timer(aim_time).timeout
 	
 	set_combat_state(CombatState.IDLE)
 	can_attack = true
+	
+	# Remaining cooldown
+	await get_tree().create_timer(max(0.1, 1.0 / fire_rate - aim_time)).timeout
 	
 	return {
 		"success": true,
@@ -578,9 +586,21 @@ func get_block_damage_reduction() -> float:
 		return damage_reduction_while_blocking
 	return 0.0
 
+func is_knife_equipped() -> bool:
+	return current_weapon.get("category") == WeaponCategory.MELEE and current_weapon.get("type") == MeleeWeapon.KNIFE
+
 func attempt_parry(attacker: Node) -> bool:
 	if not can_parry:
 		return false
+	
+	var knife_parry_bonus = 0.0
+	
+	# Knife parry bonus - knife has special parry capability
+	if is_knife_equipped():
+		knife_parry_bonus = 0.4  # Extra 40% parry bonus for knife
+		parry_window = 0.3  # Extended parry window for knife
+	else:
+		parry_window = 0.2  # Default parry window
 	
 	can_parry = false
 	
@@ -592,19 +612,29 @@ func attempt_parry(attacker: Node) -> bool:
 	
 	if parry_success:
 		parry_successful.emit(attacker)
-		# Reflect some damage back
-		if attacker.has_method("take_damage"):
+		
+		# Reflect damage back - knife has bonus reflection
+		var reflection_multiplier = parry_damage_reflection + knife_parry_bonus
+		if attacker.has_method("get_damage"):
+			var attacker_damage = 25.0  # Default if method doesn't exist
+			if attacker.has_method("get_damage"):
+				attacker_damage = attacker.get_damage()
 			attacker.take_damage(
-				attacker.get_damage() * parry_damage_reflection,
+				attacker_damage * reflection_multiplier,
 				DamageType.BLUNT,
 				false
 			)
+		
+		# Knife parry creates a brief stun effect
+		if is_knife_equipped() and attacker.has_method("apply_stun"):
+			attacker.apply_stun(0.5)
 	else:
 		# Failed parry, take extra damage
 		pass
 	
-	# Reset parry ability
-	await get_tree().create_timer(1.0).timeout
+	# Reset parry ability - knife parry has shorter cooldown
+	var parry_cooldown = 0.8 if is_knife_equipped() else 1.0
+	await get_tree().create_timer(parry_cooldown).timeout
 	can_parry = true
 	
 	return parry_success
