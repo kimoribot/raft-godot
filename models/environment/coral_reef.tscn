@@ -1,0 +1,146 @@
+[gd_scene load_steps=2 format=3 uid="uid://coral_reef"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_base"]
+size = Vector3(3, 0.3, 2)
+
+[node name="coral_reef" type="Node3D"]
+
+[node name="base_rock" type="StaticBody3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="base_rock"]
+mesh = BoxMesh.new()
+mesh.size = Vector3(3, 0.25, 2)
+
+[node name="MeshInstance3D_base_mat" type="StandardMaterial3D" parent="base_rock/MeshInstance3D"]
+albedo_color = Color(0.35, 0.38, 0.4, 1)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="base_rock"]
+shape = SubResource("BoxShape3D_base")
+
+[node name="coral_pink1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8, 0.4, 0.3)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="coral_pink1"]
+mesh = CylinderMesh.new()
+mesh.top_radius = 0.08
+mesh.bottom_radius = 0.15
+mesh.height = 0.6
+
+[node name="MeshInstance3D_coral_mat" type="StandardMaterial3D" parent="coral_pink1/MeshInstance3D"]
+albedo_color = Color(0.95, 0.45, 0.55, 1)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="coral_pink1"]
+shape = BoxShape3D.new()
+size = Vector3(0.3, 0.6, 0.3)
+
+[node name="coral_pink2" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.6, 0.3, 0.5)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="coral_pink2"]
+mesh = CylinderMesh.new()
+mesh.top_radius = 0.06
+mesh.bottom_radius = 0.12
+mesh.height = 0.45
+
+[node name="MeshInstance3D_coral_mat" type="StandardMaterial3D" parent="coral_pink2/MeshInstance3D"]
+albedo_color = Color(1.0, 0.5, 0.6, 1)
+
+[node name="coral_orange1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3, 0.35, -0.2)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="coral_orange1"]
+mesh = SphereMesh.new()
+mesh.radius = 0.2
+mesh.height = 0.4
+
+[node name="MeshInstance3D_coral_mat" type="StandardMaterial3D" parent="coral_orange1/MeshInstance3D"]
+albedo_color = Color(1.0, 0.5, 0.2, 1)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="coral_orange1"]
+shape = BoxShape3D.new()
+size = Vector3(0.4, 0.4, 0.4)
+
+[node name="coral_orange2" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, 0.25, 0.1)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="coral_orange2"]
+mesh = SphereMesh.new()
+mesh.radius = 0.15
+mesh.height = 0.3
+
+[node name="MeshInstance3D_coral_mat" type="StandardMaterial3D" parent="coral_orange2/MeshInstance3D"]
+albedo_color = Color(0.95, 0.45, 0.15, 1)
+
+[node name="coral_purple1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0, 0.4, 0.4)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="coral_purple1"]
+mesh = CylinderMesh.new()
+mesh.top_radius = 0.07
+mesh.bottom_radius = 0.18
+mesh.height = 0.7
+
+[node name="MeshInstance3D_coral_mat" type="StandardMaterial3D" parent="coral_purple1/MeshInstance3D"]
+albedo_color = Color(0.6, 0.35, 0.8, 1)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="coral_purple1"]
+shape = BoxShape3D.new()
+size = Vector3(0.35, 0.7, 0.35)
+
+[node name="coral_purple2" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.9, 0.2, 0, -0.2, 0.9, 0.9, 0.25, 0.55)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="coral_purple2"]
+mesh = CylinderMesh.new()
+mesh.top_radius = 0.05
+mesh.bottom_radius = 0.12
+mesh.height = 0.5
+
+[node name="MeshInstance3D_coral_mat" type="StandardMaterial3D" parent="coral_purple2/MeshInstance3D"]
+albedo_color = Color(0.55, 0.3, 0.75, 1)
+
+[node name="coral_green1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3, 0.3, -0.5)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="coral_green1"]
+mesh = TorusMesh.new()
+mesh.inner_radius = 0.08
+mesh.outer_radius = 0.18
+
+[node name="MeshInstance3D_coral_mat" type="StandardMaterial3D" parent="coral_green1/MeshInstance3D"]
+albedo_color = Color(0.2, 0.7, 0.5, 1)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="coral_green1"]
+shape = BoxShape3D.new()
+size = Vector3(0.4, 0.15, 0.4)
+
+[node name="coral_yellow1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.1, 0.2, -0.3)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="coral_yellow1"]
+mesh = BoxMesh.new()
+mesh.size = Vector3(0.2, 0.3, 0.15)
+
+[node name="MeshInstance3D_coral_mat" type="StandardMaterial3D" parent="coral_yellow1/MeshInstance3D"]
+albedo_color = Color(0.95, 0.85, 0.2, 1)
+
+[node name="coral_blue1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0, 0.45, 0.6)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="coral_blue1"]
+mesh = SphereMesh.new()
+mesh.radius = 0.12
+mesh.height = 0.24
+
+[node name="MeshInstance3D_coral_mat" type="StandardMaterial3D" parent="coral_blue1/MeshInstance3D"]
+albedo_color = Color(0.3, 0.6, 0.9, 1)
+
+[node name="coral_cyan1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, 0.15, -0.5)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="coral_cyan1"]
+mesh = PrismMesh.new()
+mesh.size = Vector3(0.15, 0.25, 0.12)
+
+[node name="MeshInstance3D_coral_mat" type="StandardMaterial3D" parent="coral_cyan1/MeshInstance3D"]
+albedo_color = Color(0.2, 0.85, 0.8, 1)

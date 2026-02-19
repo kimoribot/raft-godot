@@ -1,0 +1,88 @@
+[gd_scene load_steps=2 format=3 uid="uid://sand_bank"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_1"]
+size = Vector3(4, 0.5, 3)
+
+[node name="sand_bank" type="Node3D"]
+
+[node name="main_sand" type="StaticBody3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="main_sand"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+mesh = BoxMesh.new()
+mesh.size = Vector3(4, 0.4, 3)
+
+[node name="MeshInstance3D_sand_mat" type="StandardMaterial3D" parent="main_sand/MeshInstance3D"]
+albedo_color = Color(0.93, 0.87, 0.65, 1)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="main_sand"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+shape = SubResource("BoxShape3D_1")
+
+[node name="sand_hump1" type="StaticBody3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="sand_hump1"]
+transform = Transform3D(1, 0, 0, 0, 0.8, 0, 0, 0, 1, -1.2, 0.1, 0.5)
+mesh = BoxMesh.new()
+mesh.size = Vector3(1.5, 0.3, 1.2)
+
+[node name="MeshInstance3D_sand_mat" type="StandardMaterial3D" parent="sand_hump1/MeshInstance3D"]
+albedo_color = Color(0.9, 0.84, 0.62, 1)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="sand_hump1"]
+transform = Transform3D(1, 0, 0, 0, 0.8, 0, 0, 0, 1, -1.2, 0.1, 0.5)
+shape = BoxShape3D.new()
+size = Vector3(1.5, 0.3, 1.2)
+
+[node name="sand_hump2" type="StaticBody3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="sand_hump2"]
+transform = Transform3D(1, 0, 0, 0, 0.7, 0, 0, 0, 1, 1.0, 0.05, -0.8)
+mesh = BoxMesh.new()
+mesh.size = Vector3(1.8, 0.25, 1.5)
+
+[node name="MeshInstance3D_sand_mat" type="StandardMaterial3D" parent="sand_hump2/MeshInstance3D"]
+albedo_color = Color(0.91, 0.85, 0.63, 1)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="sand_hump2"]
+transform = Transform3D(1, 0, 0, 0, 0.7, 0, 0, 0, 1, 1.0, 0.05, -0.8)
+shape = BoxShape3D.new()
+size = Vector3(1.8, 0.25, 1.5)
+
+[node name="sand_hump3" type="StaticBody3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="sand_hump3"]
+transform = Transform3D(1, 0, 0, 0, 0.6, 0, 0, 0, 1, 0.5, 0.0, 0.3)
+mesh = BoxMesh.new()
+mesh.size = Vector3(1.0, 0.2, 0.8)
+
+[node name="MeshInstance3D_sand_mat" type="StandardMaterial3D" parent="sand_hump3/MeshInstance3D"]
+albedo_color = Color(0.88, 0.82, 0.6, 1)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="sand_hump3"]
+transform = Transform3D(1, 0, 0, 0, 0.6, 0, 0, 0, 1, 0.5, 0.0, 0.3)
+shape = BoxShape3D.new()
+size = Vector3(1.0, 0.2, 0.8)
+
+[node name="small_rocks" type="Node3D" parent="."]
+position = Vector3(1.5, 0.25, -0.8)
+
+[node name="rock1" type="StaticBody3D" parent="small_rocks"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="small_rocks/rock1"]
+transform = Transform3D(1, 0, 0, 0, 0.7, 0.5, 0, -0.5, 0.7, 0, 0, 0)
+mesh = BoxMesh.new()
+mesh.size = Vector3(0.25, 0.2, 0.2)
+
+[node name="MeshInstance3D_rock_mat" type="StandardMaterial3D" parent="small_rocks/rock1/MeshInstance3D"]
+albedo_color = Color(0.5, 0.48, 0.45, 1)
+
+[node name="rock2" type="StaticBody3D" parent="small_rocks"]
+transform = Transform3D(1, 0, 0, 0, 0.8, 0.3, 0, -0.3, 0.8, 0.2, 0, 0.15)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="small_rocks/rock2"]
+mesh = BoxMesh.new()
+mesh.size = Vector3(0.18, 0.15, 0.18)
+
+[node name="MeshInstance3D_rock_mat" type="StandardMaterial3D" parent="small_rocks/rock2/MeshInstance3D"]
+albedo_color = Color(0.55, 0.5, 0.42, 1)
