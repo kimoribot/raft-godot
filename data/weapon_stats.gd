@@ -154,7 +154,7 @@ static var _melee_weapon_data: Dictionary = {
 				"cost": {"metal": 30, "titanium": 8}
 			},
 			WeaponTier.PLASMA: {
-				"damage_multiplier": 4.0,
+				"damage_multiplier": 3.0,
 				"durability_multiplier": 3.0,
 				"pierce_count": 10,
 				"special": "lightning_chain",
@@ -198,7 +198,7 @@ static var _melee_weapon_data: Dictionary = {
 				"cost": {"metal": 15, "titanium": 5, "leather": 5}
 			},
 			WeaponTier.PLASMA: {
-				"damage_multiplier": 4.0,
+				"damage_multiplier": 3.0,
 				"durability_multiplier": 3.0,
 				"attack_speed_bonus": 0.5,
 				"special": "bleed",
@@ -243,7 +243,7 @@ static var _melee_weapon_data: Dictionary = {
 				"cost": {"metal": 35, "titanium": 10}
 			},
 			WeaponTier.PLASMA: {
-				"damage_multiplier": 4.0,
+				"damage_multiplier": 3.0,
 				"durability_multiplier": 3.0,
 				"special": "cleave",
 				"cost": {"plasma_core": 2, "titanium": 15, "electronics": 5}
@@ -295,7 +295,7 @@ static var _ranged_weapon_data: Dictionary = {
 				"cost": {"metal": 30, "titanium": 10, "electronics": 5}
 			},
 			WeaponTier.PLASMA: {
-				"damage_multiplier": 4.0,
+				"damage_multiplier": 3.0,
 				"durability_multiplier": 3.0,
 				"pierce_count": 15,
 				"special": "plasma_arc",
@@ -346,7 +346,7 @@ static var _ranged_weapon_data: Dictionary = {
 				"cost": {"plastic": 25, "titanium": 5, "electronics": 5}
 			},
 			WeaponTier.PLASMA: {
-				"damage_multiplier": 4.0,
+				"damage_multiplier": 3.0,
 				"durability_multiplier": 3.0,
 				"special": "incinerate",
 				"cost": {"plasma_core": 1, "titanium": 10, "electronics": 10}
@@ -393,7 +393,7 @@ static var _ranged_weapon_data: Dictionary = {
 				"cost": {"metal": 40, "titanium": 15, "explosive": 8}
 			},
 			WeaponTier.PLASMA: {
-				"damage_multiplier": 4.0,
+				"damage_multiplier": 3.0,
 				"durability_multiplier": 3.0,
 				"special": "shockwave",
 				"cost": {"plasma_core": 3, "titanium": 20, "electronics": 10}
@@ -600,7 +600,7 @@ static var _upgrade_tiers: Dictionary = {
 	
 	WeaponTier.PLASMA: {
 		"name": "Plasma",
-		"damage_multiplier": 4.0,
+		"damage_multiplier": 3.0,
 		"durability_multiplier": 3.0,
 		"speed_multiplier": 1.3,
 		"crit_bonus": 0.2,
