@@ -104,13 +104,13 @@ static var _melee_weapon_data: Dictionary = {
 				"cost": {"wood": 15, "metal": 8}
 			},
 			WeaponTier.TITANIUM: {
-				"damage_multiplier": 2.5,
-				"durability_multiplier": 2.5,
+				"damage_multiplier": 2.0,
+				"durability_multiplier": 2.0,
 				"cost": {"wood": 5, "metal": 20, "titanium": 5}
 			},
 			WeaponTier.PLASMA: {
-				"damage_multiplier": 4.0,
-				"durability_multiplier": 3.0,
+				"damage_multiplier": 3.0,
+				"durability_multiplier": 2.5,
 				"special": "plasma_burn",
 				"cost": {"plasma_core": 1, "titanium": 10, "electronics": 5}
 			}
@@ -148,7 +148,7 @@ static var _melee_weapon_data: Dictionary = {
 				"cost": {"wood": 20, "metal": 12}
 			},
 			WeaponTier.TITANIUM: {
-				"damage_multiplier": 2.5,
+				"damage_multiplier": 2.0,
 				"durability_multiplier": 2.5,
 				"pierce_count": 5,
 				"cost": {"metal": 30, "titanium": 8}
@@ -192,7 +192,7 @@ static var _melee_weapon_data: Dictionary = {
 				"cost": {"metal": 8, "leather": 3}
 			},
 			WeaponTier.TITANIUM: {
-				"damage_multiplier": 2.5,
+				"damage_multiplier": 2.0,
 				"durability_multiplier": 2.5,
 				"attack_speed_bonus": 0.4,
 				"cost": {"metal": 15, "titanium": 5, "leather": 5}
@@ -236,7 +236,7 @@ static var _melee_weapon_data: Dictionary = {
 				"cost": {"wood": 25, "metal": 15}
 			},
 			WeaponTier.TITANIUM: {
-				"damage_multiplier": 2.5,
+				"damage_multiplier": 2.0,
 				"durability_multiplier": 2.5,
 				"attack_speed_bonus": 0.2,
 				"armor_penetration": 0.5,
@@ -288,7 +288,7 @@ static var _ranged_weapon_data: Dictionary = {
 				"cost": {"metal": 20, "rope": 10}
 			},
 			WeaponTier.TITANIUM: {
-				"damage_multiplier": 2.5,
+				"damage_multiplier": 2.0,
 				"durability_multiplier": 2.5,
 				"pierce_count": 8,
 				"fire_rate_bonus": 0.2,
@@ -338,7 +338,7 @@ static var _ranged_weapon_data: Dictionary = {
 				"cost": {"plastic": 15, "cloth": 10}
 			},
 			WeaponTier.TITANIUM: {
-				"damage_multiplier": 2.5,
+				"damage_multiplier": 2.0,
 				"durability_multiplier": 2.5,
 				"burn_damage": 10.0,
 				"burn_duration": 10.0,
@@ -386,7 +386,7 @@ static var _ranged_weapon_data: Dictionary = {
 				"cost": {"metal": 30, "explosive": 5}
 			},
 			WeaponTier.TITANIUM: {
-				"damage_multiplier": 2.5,
+				"damage_multiplier": 2.0,
 				"durability_multiplier": 2.5,
 				"explosion_radius": 10.0,
 				"knockback_force": 25.0,
@@ -589,7 +589,7 @@ static var _upgrade_tiers: Dictionary = {
 	
 	WeaponTier.TITANIUM: {
 		"name": "Titanium",
-		"damage_multiplier": 2.5,
+		"damage_multiplier": 2.0,
 		"durability_multiplier": 2.5,
 		"speed_multiplier": 1.2,
 		"crit_bonus": 0.1,
