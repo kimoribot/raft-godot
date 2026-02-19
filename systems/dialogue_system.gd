@@ -63,6 +63,22 @@ class DialogueChoice:
 	func _init(choice_id: String, choice_text: String) -> void:
 		id = choice_id
 		text = choice_text
+	
+	func with_next(dialogue_id: String) -> DialogueChoice:
+		next_dialogue = dialogue_id
+		return self
+	
+	func with_effects(eff: Dictionary) -> DialogueChoice:
+		effects = eff.duplicate()
+		return self
+	
+	func with_conditions(cond: Dictionary) -> DialogueChoice:
+		conditions = cond.duplicate()
+		return self
+	
+	func with_quest(quest_id: String) -> DialogueChoice:
+		quest_to_start = quest_id
+		return self
 
 
 class RadioTransmission:
@@ -546,25 +562,3 @@ func play_random_encounter() -> void:
 	var encounters: Array = ["rescue_survivor", "trader", "strange_signal"]
 	encounters.shuffle()
 	start_dialogue(encounters[0])
-
-
-# ==================== CHOICE HELPER EXTENSION ====================
-
-func with_next(dialogue_id: String) -> DialogueChoice:
-	next_dialogue = dialogue_id
-	return self
-
-
-func with_effects(effects: Dictionary) -> DialogueChoice:
-	effects = effects.duplicate()
-	return self
-
-
-func with_conditions(conditions: Dictionary) -> DialogueChoice:
-	conditions = conditions.duplicate()
-	return self
-
-
-func with_quest(quest_id: String) -> DialogueChoice:
-	quest_to_start = quest_id
-	return self

@@ -1,0 +1,494 @@
+[gd_scene load_steps=11 format=3 uid="uid://save_load_menu"]
+
+[ext_resource type="Shader" path="res://shaders/ocean.gdshader" id="1_ocean"]
+[ext_resource type="Shader" path="res://shaders/sky.gdshader" id="2_sky"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ocean"]
+render_priority = 0
+shader = ExtResource("1_ocean")
+shader_parameter/albedo = Color(0.02, 0.15, 0.35, 1)
+shader_parameter/foam_color = Color(0.9, 0.95, 1, 1)
+shader_parameter/deep_color = Color(0, 0.05, 0.15, 1)
+shader_parameter/shallow_color = Color(0.1, 0.4, 0.5, 1)
+shader_parameter/wave_speed = 0.5
+shader_parameter/wave_height = 0.3
+shader_parameter/wave_frequency = 1.0
+shader_parameter/foam_threshold = 0.7
+shader_parameter/foam_amount = 0.4
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sky"]
+render_priority = 0
+shader = ExtResource("2_sky")
+shader_parameter/time_of_day = 14.0
+shader_parameter/day_duration = 60.0
+shader_parameter/day_top_color = Color(0.25, 0.55, 0.9, 1)
+shader_parameter/day_bottom_color = Color(0.6, 0.8, 1, 1)
+
+[sub_resource type="QuadMesh" id="QuadMesh_ocean"]
+size = Vector2(200, 200)
+
+[sub_resource type="QuadMesh" id="QuadMesh_sky"]
+size = Vector2(2, 2)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+bg_color = Color(0.05, 0.1, 0.18, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.3, 0.5, 0.65, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+shadow_color = Color(0, 0.2, 0.3, 0.5)
+shadow_size = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_slot"]
+bg_color = Color(0.08, 0.14, 0.22, 0.92)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.25, 0.4, 0.55, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_slot_hover"]
+bg_color = Color(0.12, 0.2, 0.32, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.4, 0.6, 0.8, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_slot_selected"]
+bg_color = Color(0.15, 0.28, 0.42, 0.98)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.5, 0.75, 0.95, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+shadow_color = Color(0.2, 0.4, 0.6, 0.4)
+shadow_size = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_button"]
+bg_color = Color(0.1, 0.18, 0.28, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.35, 0.55, 0.7, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_button_hover"]
+bg_color = Color(0.15, 0.28, 0.42, 0.98)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.5, 0.7, 0.85, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_delete_button"]
+bg_color = Color(0.3, 0.1, 0.1, 0.9)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.6, 0.2, 0.2, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_delete_hover"]
+bg_color = Color(0.5, 0.15, 0.15, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.8, 0.3, 0.3, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[node name="SaveLoadMenu" type="CanvasLayer"]
+layer = 120
+
+[node name="BackgroundDim" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.02, 0.05, 0.1, 0.8)
+
+[node name="ParallaxBackground" type="CanvasLayer" parent="."]
+layer = -5
+
+[node name="Sky" type="MeshInstance3D" parent="ParallaxBackground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 50, -100)
+material_override = SubResource("ShaderMaterial_sky")
+mesh = SubResource("QuadMesh_sky")
+
+[node name="Ocean" type="MeshInstance3D" parent="ParallaxBackground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5, 0)
+material_override = SubResource("ShaderMaterial_ocean")
+mesh = SubResource("QuadMesh_ocean")
+
+[node name="MainPanel" type="PanelContainer" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -350.0
+offset_top = -280.0
+offset_right = 350.0
+offset_bottom = 280.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="VBox" type="VBoxContainer" parent="MainPanel"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="TitleBar" type="HBoxContainer" parent="MainPanel/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="Title" type="Label" parent="MainPanel/VBox/TitleBar"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.95, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0.2, 0.35, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 28
+text = "💾  SAVE / LOAD"
+
+[node name="ModeToggle" type="HBoxContainer" parent="MainPanel/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="SaveMode" type="Button" parent="MainPanel/VBox/ModeToggle"]
+custom_minimum_size = Vector2(140, 40)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.95, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxFlat_button")
+theme_override_styles/hover = SubResource("StyleBoxFlat_button_hover")
+text = "💾 Save"
+
+[node name="LoadMode" type="Button" parent="MainPanel/VBox/ModeToggle"]
+custom_minimum_size = Vector2(140, 40)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.8, 0.9, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxFlat_button")
+theme_override_styles/hover = SubResource("StyleBoxFlat_button_hover")
+text = "📂 Load"
+
+[node name="SlotsScroll" type="ScrollContainer" parent="MainPanel/VBox"]
+custom_minimum_size = Vector2(640, 380)
+layout_mode = 2
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 1
+
+[node name="SlotsVBox" type="VBoxContainer" parent="MainPanel/VBox/SlotsScroll"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Slot1" type="PanelContainer" parent="MainPanel/VBox/SlotsScroll/SlotsVBox"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_slot")
+
+[node name="HBox" type="HBoxContainer" parent="MainPanel/VBox/SlotsScroll/SlotsVBox/Slot1"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="SlotNumber" type="Label" parent="MainPanel/VBox/SlotsScroll/SlotsVBox/Slot1/HBox"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.6, 0.8, 1)
+theme_override_font_sizes/font_size = 18
+text = "1."
+horizontal_alignment = 1
+
+[node name="InfoVBox" type="VBoxContainer" parent="MainPanel/VBox/SlotsScroll/SlotsVBox/Slot1/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 4
+
+[node name="SaveName" type="Label" parent="MainPanel/VBox/SlotsScroll/SlotsVBox/Slot1/HBox/InfoVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.95, 1, 1)
+theme_override_font_sizes/font_size = 16
+text = "Day 3 - Morning"
+
+[node name="DateTime" type="Label" parent="MainPanel/VBox/SlotsScroll/SlotsVBox/Slot1/HBox/InfoVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5, 0.65, 0.8, 1)
+theme_override_font_sizes/font_size = 12
+text = "Feb 19, 2026 - 08:32 AM"
+
+[node name="Location" type="Label" parent="MainPanel/VBox/SlotsScroll/SlotsVBox/Slot1/HBox/InfoVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.55, 0.7, 1)
+theme_override_font_sizes/font_size = 12
+text = "📍 Coordinates: 124, 56"
+
+[node name="DeleteButton" type="Button" parent="MainPanel/VBox/SlotsScroll/SlotsVBox/Slot1/HBox"]
+custom_minimum_size = Vector2(80, 36)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.6, 0.6, 1)
+theme_override_colors/font_hover_color = Color(1, 0.7, 0.7, 1)
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBoxFlat_delete_button")
+theme_override_styles/hover = SubResource("StyleBoxFlat_delete_hover")
+text = "🗑"
+
+[node name="Slot2" type="PanelContainer" parent="MainPanel/VBox/SlotsScroll/SlotsVBox"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_slot")
+
+[node name="HBox" type="HBoxContainer" parent="MainPanel/VBox/SlotsScroll/SlotsVBox/Slot2"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="SlotNumber" type="Label" parent="MainPanel/VBox/SlotsScroll/SlotsVBox/Slot2/HBox"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.6, 0.8, 1)
+theme_override_font_sizes/font_size = 18
+text = "2."
+horizontal_alignment = 1
+
+[node name="InfoVBox" type="VBoxContainer" parent="MainPanel/VBox/SlotsScroll/SlotsVBox/Slot2/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 4
+
+[node name="SaveName" type="Label" parent="MainPanel/VBox/SlotsScroll/SlotsVBox/Slot2/HBox/InfoVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.95, 1, 1)
+theme_override_font_sizes/font_size = 16
+text = "Day 2 - Evening"
+
+[node name="DateTime" type="Label" parent="MainPanel/VBox/SlotsScroll/SlotsVBox/Slot2/HBox/InfoVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5, 0.65, 0.8, 1)
+theme_override_font_sizes/font_size = 12
+text = "Feb 18, 2026 - 06:45 PM"
+
+[node name="Location" type="Label" parent="MainPanel/VBox/SlotsScroll/SlotsVBox/Slot2/HBox/InfoVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.55, 0.7, 1)
+theme_override_font_sizes/font_size = 12
+text = "📍 Coordinates: 98, 42"
+
+[node name="DeleteButton" type="Button" parent="MainPanel/VBox/SlotsScroll/SlotsVBox/Slot2/HBox"]
+custom_minimum_size = Vector2(80, 36)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.6, 0.6, 1)
+theme_override_colors/font_hover_color = Color(1, 0.7, 0.7, 1)
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBoxFlat_delete_button")
+theme_override_styles/hover = SubResource("StyleBoxFlat_delete_hover")
+text = "🗑"
+
+[node name="Slot3" type="PanelContainer" parent="MainPanel/VBox/SlotsScroll/SlotsVBox"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_slot")
+
+[node name="HBox" type="HBoxContainer" parent="MainPanel/VBox/SlotsScroll/SlotsVBox/Slot3"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="SlotNumber" type="Label" parent="MainPanel/VBox/SlotsScroll/SlotsVBox/Slot3/HBox"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.6, 0.8, 1)
+theme_override_font_sizes/font_size = 18
+text = "3."
+horizontal_alignment = 1
+
+[node name="InfoVBox" type="VBoxContainer" parent="MainPanel/VBox/SlotsScroll/SlotsVBox/Slot3/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 4
+
+[node name="SaveName" type="Label" parent="MainPanel/VBox/SlotsScroll/SlotsVBox/Slot3/HBox/InfoVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.95, 1, 1)
+theme_override_font_sizes/font_size = 16
+text = "Day 1 - Late Night"
+
+[node name="DateTime" type="Label" parent="MainPanel/VBox/SlotsScroll/SlotsVBox/Slot3/HBox/InfoVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5, 0.65, 0.8, 1)
+theme_override_font_sizes/font_size = 12
+text = "Feb 17, 2026 - 11:20 PM"
+
+[node name="Location" type="Label" parent="MainPanel/VBox/SlotsScroll/SlotsVBox/Slot3/HBox/InfoVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.55, 0.7, 1)
+theme_override_font_sizes/font_size = 12
+text = "📍 Coordinates: 45, 12"
+
+[node name="DeleteButton" type="Button" parent="MainPanel/VBox/SlotsScroll/SlotsVBox/Slot3/HBox"]
+custom_minimum_size = Vector2(80, 36)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.6, 0.6, 1)
+theme_override_colors/font_hover_color = Color(1, 0.7, 0.7, 1)
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBoxFlat_delete_button")
+theme_override_styles/hover = SubResource("StyleBoxFlat_delete_hover")
+text = "🗑"
+
+[node name="Slot4" type="PanelContainer" parent="MainPanel/VBox/SlotsScroll/SlotsVBox"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_slot")
+
+[node name="HBox" type="HBoxContainer" parent="MainPanel/VBox/SlotsScroll/SlotsVBox/Slot4"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="SlotNumber" type="Label" parent="MainPanel/VBox/SlotsScroll/SlotsVBox/Slot4/HBox"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.6, 0.8, 1)
+theme_override_font_sizes/font_size = 18
+text = "4."
+horizontal_alignment = 1
+
+[node name="InfoVBox" type="VBoxContainer" parent="MainPanel/VBox/SlotsScroll/SlotsVBox/Slot4/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 4
+
+[node name="SaveName" type="Label" parent="MainPanel/VBox/SlotsScroll/SlotsVBox/Slot4/HBox/InfoVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.95, 1, 1)
+theme_override_font_sizes/font_size = 16
+text = "Empty Slot"
+
+[node name="DateTime" type="Label" parent="MainPanel/VBox/SlotsScroll/SlotsVBox/Slot4/HBox/InfoVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.5, 0.6, 1)
+theme_override_font_sizes/font_size = 12
+text = "No save data"
+
+[node name="Location" type="Label" parent="MainPanel/VBox/SlotsScroll/SlotsVBox/Slot4/HBox/InfoVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.35, 0.45, 0.55, 1)
+theme_override_font_sizes/font_size = 12
+text = "---"
+
+[node name="DeleteButton" type="Button" parent="MainPanel/VBox/SlotsScroll/SlotsVBox/Slot4/HBox"]
+custom_minimum_size = Vector2(80, 36)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5, 0.5, 0.5, 1)
+theme_override_colors/font_hover_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBoxFlat_delete_button")
+theme_override_styles/hover = SubResource("StyleBoxFlat_delete_hover")
+text = "🗑"
+disabled = true
+
+[node name="Slot5" type="PanelContainer" parent="MainPanel/VBox/SlotsScroll/SlotsVBox"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_slot")
+
+[node name="HBox" type="HBoxContainer" parent="MainPanel/VBox/SlotsScroll/SlotsVBox/Slot5"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="SlotNumber" type="Label" parent="MainPanel/VBox/SlotsScroll/SlotsVBox/Slot5/HBox"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.6, 0.8, 1)
+theme_override_font_sizes/font_size = 18
+text = "5."
+horizontal_alignment = 1
+
+[node name="InfoVBox" type="VBoxContainer" parent="MainPanel/VBox/SlotsScroll/SlotsVBox/Slot5/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 4
+
+[node name="SaveName" type="Label" parent="MainPanel/VBox/SlotsScroll/SlotsVBox/Slot5/HBox/InfoVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.95, 1, 1)
+theme_override_font_sizes/font_size = 16
+text = "Empty Slot"
+
+[node name="DateTime" type="Label" parent="MainPanel/VBox/SlotsScroll/SlotsVBox/Slot5/HBox/InfoVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.5, 0.6, 1)
+theme_override_font_sizes/font_size = 12
+text = "No save data"
+
+[node name="Location" type="Label" parent="MainPanel/VBox/SlotsScroll/SlotsVBox/Slot5/HBox/InfoVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.35, 0.45, 0.55, 1)
+theme_override_font_sizes/font_size = 12
+text = "---"
+
+[node name="DeleteButton" type="Button" parent="MainPanel/VBox/SlotsScroll/SlotsVBox/Slot5/HBox"]
+custom_minimum_size = Vector2(80, 36)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5, 0.5, 0.5, 1)
+theme_override_colors/font_hover_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBoxFlat_delete_button")
+theme_override_styles/hover = SubResource("StyleBoxFlat_delete_hover")
+text = "🗑"
+disabled = true
+
+[node name="ButtonRow" type="HBoxContainer" parent="MainPanel/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="CancelButton" type="Button" parent="MainPanel/VBox/ButtonRow"]
+custom_minimum_size = Vector2(140, 48)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.8, 0.9, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxFlat_button")
+theme_override_styles/hover = SubResource("StyleBoxFlat_button_hover")
+text = "✕  Cancel"
+
+[node name="ConfirmButton" type="Button" parent="MainPanel/VBox/ButtonRow"]
+custom_minimum_size = Vector2(160, 48)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.95, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxFlat_button")
+theme_override_styles/hover = SubResource("StyleBoxFlat_button_hover")
+text = "✓  Confirm"
