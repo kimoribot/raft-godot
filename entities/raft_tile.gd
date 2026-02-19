@@ -1,272 +1,295 @@
 extends RigidBody3D
 class_name RaftTile
+## Individual building piece (foundation, bed, etc.)
+## RigidBody3D that can connect to raft
+## Can be damaged by shark and falls away when destroyed
 
-## Base class for all raft building pieces
-## Handles health, damage, repair, and interaction with physics
+signal tile_damaged(amount: float, source: Node)
+signal tile_destroyed
+signal health_changed(new_health: float)
 
-signal tile_destroyed(tile: RaftTile)
-signal tile_damaged(tile: RaftTile, damage: float)
-signal tile_repaired(tile: RaftTile, amount: float)
+#== TILE TYPES ==#
+enum TileType {
+	FOUNDATION,
+	FLOOR,
+	BED,
+	STORAGE,
+	GRILL,
+	WATER_CATCHER,
+	PLANTER,
+	STOVE,
+	ENGINE,
+	RAZOR,
+	ANTENNA,
+	TURRET,
+	SIMPLE
+}
 
-# Tile properties
-@export var tile_type: String = "foundation"
-@export var max_health: float = 100.0
-@export var repair_cost: Dictionary = {}  # {item_type: count}
-@export var is_walkable: bool = true
-@export var is_storage: bool = false
-@export var storage_capacity: int = 20
+#== EXPORTS ==#
+@export_category("Tile Settings")
+@export var tile_type: TileType = TileType.FOUNDATION
+@export var tile_name: String = "Tile"
+@export var tile_description: String = "A building tile"
+@export var grid_size: Vector2i = Vector2i(1, 1)
 
-# Current state
-var current_health: float = 100.0
-var is_destroyed: bool = false
+@export_category("Health")
+@export var max_tile_health: float = 50.0
+@export var is_destroyable: bool = true
+
+@export_category("Physics")
+@export var buoyancy_factor: float = 1.0
+@export var mass_multiplier: float = 1.0
+
+#== STATE ==#
+var current_raft: Raft = null
 var grid_position: Vector2i = Vector2i.ZERO
-var placed_at_time: float = 0.0
+var is_connected: bool = false
+var tile_health: float = max_tile_health
+var is_indestructible: bool = false
 
-# Visual
-var damage_material: StandardMaterial3D
-
-# References
-var raft_center: Vector3
+#== CACHED NODES ==#
+@onready var mesh_instance: MeshInstance3D = $MeshInstance3D if has_node("MeshInstance3D") else null
+@onready var collision_shape: CollisionShape3D = $CollisionShape3D if has_node("CollisionShape3D") else null
 
 func _ready() -> void:
-	current_health = max_health
-	placed_at_time = Time.get_ticks_msec() / 1000.0
+	_setup_tile()
+
+func _setup_tile() -> void:
+	# Configure physics for floating tile behavior
+	mass = 10.0 * mass_multiplier
 	
-	# Setup collision layer for raft pieces
-	collision_layer = 1 << 2  # Layer 3: Raft
-	collision_mask = 1 << 1  # Mask layer 2: Water
+	physics_material_override = PhysicsMaterial.new()
+	physics_material_override.friction = 0.5
+	physics_material_override.bounce = 0.1
 	
-	# Setup mass for realistic floating
-	mass = 50.0
-	linear_damp = 2.0
-	angular_damp = 3.0
+	# High damping when not connected (will fall)
+	linear_damp = 0.5
+	angular_damp = 0.5
 	
-	# Create damage visual material
-	_setup_damage_material()
-	
-	# Connect to raft system
-	_connect_to_raft_system()
-
-
-func _setup_damage_material() -> void:
-	damage_material = StandardMaterial3D.new()
-	damage_material.albedo_color = Color(0.8, 0.3, 0.3, 1.0)
-
-
-func _connect_to_raft_system() -> void:
-	var building_system = get_tree().get_first_node_in_group("building_system")
-	if building_system:
-		building_system.register_tile(self)
-
+	# Disable by default until connected
+	if not is_connected:
+		freeze = true
 
 func _physics_process(delta: float) -> void:
-	if is_destroyed:
+	if is_connected and current_raft != null:
+		_follow_raft(delta)
+	
+	# Check if fallen too far (cleanup)
+	if global_position.y < -50:
+		queue_free()
+
+func _follow_raft(delta: float) -> void:
+	if current_raft == null or not is_instance_valid(current_raft):
+		_disconnect_from_raft()
 		return
 	
-	# Apply wave motion if we have a reference to water physics
-	var water = get_tree().get_first_node_in_group("water")
-	if water and water is WaterPhysics:
-		var wave_height = water.get_wave_height(global_position)
-		var bob_offset = water.get_bob_offset(global_position)
-		
-		# Smoothly adjust to wave height
-		var target_y = wave_height + bob_offset.y
-		global_position.y = lerp(global_position.y, target_y, delta * 2.0)
-		
-		# Apply wave tilt
-		var wave_normal = water.get_wave_normal(global_position)
-		var target_basis = _basis_from_normal(wave_normal)
-		basis = basis.slerp(target_basis, delta * 1.5).orthonormalized()
+	# Calculate target position in raft local space
+	var raft_transform = current_raft.global_transform
+	var local_offset = Vector3(
+		grid_position.x * current_raft.grid_size,
+		0,
+		grid_position.y * current_raft.grid_size
+	)
+	var target_pos = raft_transform * local_offset
+	
+	# Smooth follow
+	global_position = global_position.lerp(target_pos, delta * 15.0)
+	
+	# Match raft rotation (smooth)
+	var target_basis = raft_transform.basis
+	var current_basis = global_transform.basis
+	var new_basis = current_basis.slerp(target_basis, delta * 10.0)
+	global_transform.basis = new_basis
 
+#== CONNECTION API ==#
 
-func _basis_from_normal(normal: Vector3) -> Basis:
-	# Create a basis from wave normal
-	var up = normal
-	var forward = Vector3.FORWARD
-	if abs(normal.dot(Vector3.FORWARD)) > 0.99:
-		forward = Vector3.RIGHT
-	var right = forward.cross(up).normalized()
-	forward = up.cross(right).normalized()
-	return Basis(right, up, forward)
+func connect_to_raft(raft: Raft, grid_pos: Vector2i) -> void:
+	current_raft = raft
+	grid_position = grid_pos
+	is_connected = true
+	
+	# Enable physics but with high damping
+	freeze = false
+	linear_damp = 2.0
+	angular_damp = 2.0
+	
+	# Set collision layer to raft
+	set_collision_layer_value(2, true)  # Raft layer
+	set_collision_mask_value(1, true)    # World
+	
+	# Update parent reference for tile
+	if get_parent() != raft:
+		reparent(raft)
 
+func disconnect_from_raft() -> void:
+	is_connected = false
+	
+	# Store grid position before clearing
+	var stored_grid_pos = grid_position
+	
+	# Clear raft reference
+	current_raft = null
+	grid_position = Vector2i.ZERO
+	
+	# Enable full physics (fall into water)
+	freeze = false
+	linear_damp = 1.0
+	angular_damp = 1.0
+	
+	# Apply water entry force
+	_apply_water_entry_force()
+	
+	# Re-parent to world
+	if get_parent() != get_tree().current_scene:
+		reparent(get_tree().current_scene)
 
-## Take damage from shark or other sources
-func take_damage(amount: float, source: Node = null) -> void:
-	if is_destroyed:
+func _disconnect_from_raft() -> void:
+	disconnect_from_raft()
+
+func _apply_water_entry_force() -> void:
+	# Small random impulse when entering water
+	var impulse = Vector3(
+		randf_range(-0.5, 0.5),
+		randf_range(0.2, 0.5),
+		randf_range(-0.5, 0.5)
+	)
+	apply_central_impulse(impulse)
+
+#== DAMAGE API ==#
+
+func damage(amount: float, source: Node = null) -> void:
+	if is_indestructible or not is_destroyable:
 		return
 	
-	current_health -= amount
-	tile_damaged.emit(self, amount)
+	tile_health = max(0, tile_health - amount)
+	health_changed.emit(tile_health)
+	tile_damaged.emit(amount, source)
 	
-	# Visual feedback - flash red
-	_play_damage_effect()
-	
-	# Check for destruction
-	if current_health <= 0:
-		destroy_tile(source)
+	if tile_health <= 0:
+		destroy()
 
+func heal(amount: float) -> void:
+	tile_health = min(max_tile_health, tile_health + amount)
+	health_changed.emit(tile_health)
 
-## Destroy this tile
-func destroy_tile(source: Node = null) -> void:
-	if is_destroyed:
-		return
+func destroy() -> void:
+	if current_raft != null:
+		current_raft.destroy_tile(self)
 	
-	is_destroyed = true
-	current_health = 0.0
-	
-	# Visual destruction effect
+	# Play destruction effect
 	_play_destruction_effect()
 	
-	# Remove from raft compound body
-	_remove_from_raft_compound()
-	
-	# Make tile fall into ocean with physics
-	linear_damp = 0.5
-	angular_damp = 0.3
-	
-	# Apply downward force to sink
-	apply_central_force(Vector3.DOWN * 100.0)
-	
-	tile_destroyed.emit(self)
-	
-	# Notify building system
-	var building_system = get_tree().get_first_node_in_group("building_system")
-	if building_system:
-		building_system.unregister_tile(self, grid_position)
-
-
-## Repair this tile
-func repair(amount: float) -> bool:
-	if is_destroyed:
-		return false
-	
-	# Check if we have repair resources
-	var inventory = get_tree().get_first_node_in_group("inventory")
-	if not inventory:
-		return false
-	
-	for item_type in repair_cost:
-		var required = repair_cost[item_type]
-		if not inventory.has_item(item_type, required):
-			return false
-	
-	# Deduct resources
-	for item_type in repair_cost:
-		var cost = repair_cost[item_type]
-		inventory.remove_item(item_type, cost)
-	
-	# Apply repair
-	current_health = min(current_health + amount, max_health)
-	tile_repaired.emit(self, amount)
-	
-	# Update visual
-	_update_visual_health()
-	
-	return true
-
-
-## Get health percentage
-func get_health_percent() -> float:
-	return current_health / max_health
-
-
-## Check if tile needs repair
-func needs_repair() -> bool:
-	return current_health < max_health * 0.5 and not is_destroyed
-
-
-func _play_damage_effect() -> void:
-	# Simple visual feedback - in production would be particle effect
-	var mesh = get_node_or_null("Mesh") as MeshInstance3D
-	if mesh:
-		var tween = create_tween()
-		var original_color = mesh.get_surface_override_material(0).albedo_color if mesh.get_surface_override_material(0) else Color.WHITE
-		tween.tween_property(mesh, "surface_override_material:albedo_color", Color.RED, 0.1)
-		tween.tween_property(mesh, "surface_override_material:albedo_color", original_color, 0.2)
-
+	tile_destroyed.emit()
+	queue_free()
 
 func _play_destruction_effect() -> void:
-	# Particle effect for destruction
-	# In production: spawn debris particles
+	# Visual feedback for destruction
+	# Could spawn particles, debris, etc.
 	pass
 
+#== DATA API ==#
 
-func _remove_from_raft_compound() -> void:
-	# Remove collision shape from compound body
-	# This is handled by the building system
-	pass
-
-
-func _update_visual_health() -> void:
-	# Update material based on health
-	var mesh = get_node_or_null("Mesh") as MeshInstance3D
-	if mesh:
-		var health_percent = get_health_percent()
-		if health_percent < 0.3:
-			mesh.set_surface_override_material(0, damage_material)
-		else:
-			mesh.set_surface_override_material(0, null)  # Reset to default
-
-
-## Called when player interacts with this tile
-func interact(interactor: Node) -> void:
-	if is_destroyed:
-		return
-	
-	# Check for repair
-	if needs_repair():
-		# Show repair prompt
-		pass
-	
-	# Otherwise interact based on tile type
-	match tile_type:
-		"storage":
-			# Open storage UI
-			pass
-		"bed":
-			# Rest functionality
-			pass
-		"grill", "fireplace":
-			# Cooking functionality
-			pass
-
-
-## Save tile state
-func save_state() -> Dictionary:
+func get_tile_data() -> Dictionary:
 	return {
-		"tile_type": tile_type,
-		"grid_position": {"x": grid_position.x, "y": grid_position.y},
-		"current_health": current_health,
-		"global_position": {
-			"x": global_position.x,
-			"y": global_position.y,
-			"z": global_position.z
-		},
-		"transform": {
-			"basis_x": [basis.x.x, basis.x.y, basis.x.z],
-			"basis_y": [basis.y.x, basis.y.y, basis.y.z],
-			"basis_z": [basis.z.x, basis.z.y, basis.z.z]
-		},
-		"placed_at_time": placed_at_time
+		"type": tile_type,
+		"name": tile_name,
+		"description": tile_description,
+		"health": tile_health,
+		"max_health": max_tile_health,
+		"grid_size": grid_size,
+		"grid_position": grid_position,
+		"is_connected": is_connected
 	}
 
+func get_buoyancy_factor() -> float:
+	# Different tile types affect buoyancy differently
+	match tile_type:
+		TileType.STORAGE:
+			return 0.7  # Heavy, less buoyant
+		TileType.ENGINE:
+			return 0.8
+		TileType.BED:
+			return 1.0
+		TileType.FOUNDATION:
+			return 1.2  # Provides buoyancy
+		TileType.WATER_CATCHER:
+			return 1.1
+		_:
+			return buoyancy_factor
 
-## Load tile state
-func load_state(data: Dictionary) -> void:
-	if data.has("current_health"):
-		current_health = data["current_health"]
+func get_mass_contribution() -> float:
+	match tile_type:
+		TileType.STORAGE:
+			return 3.0  # Heavy
+		TileType.ENGINE:
+			return 2.5
+		TileType.BED:
+			return 1.5
+		TileType.FOUNDATION:
+			return 1.0
+		TileType.GRILL, TileType.STOVE:
+			return 1.2
+		_:
+			return mass_multiplier
+
+func get_interaction_prompt() -> String:
+	match tile_type:
+		TileType.BED:
+			return "Sleep"
+		TileType.STORAGE:
+			return "Open"
+		TileType.GRILL:
+			return "Cook"
+		TileType.WATER_CATCHER:
+			return "Collect Water"
+		TileType.PLANTER:
+			return "Harvest"
+		TileType.STOVE:
+			return "Craft"
+		_:
+			return "Interact"
+
+#== INTERACTION ==#
+
+func interact(interactor: Node3D) -> void:
+	# Override in subclasses for specific interactions
+	pass
+
+func can_interact(interactor: Node3D) -> bool:
+	# Override in subclasses
+	return true
+
+#== TYPE CHECKING ==#
+
+func is_foundation() -> bool:
+	return tile_type == TileType.FOUNDATION
+
+func is_storage() -> bool:
+	return tile_type == TileType.STORAGE
+
+func is_occupiable() -> bool:
+	return tile_type in [TileType.BED, TileType.FLOOR, TileType.FOUNDATION]
+
+#== SERIALIZATION ==#
+
+func get_save_data() -> Dictionary:
+	return {
+		"tile_type": tile_type,
+		"grid_position": { "x": grid_position.x, "y": grid_position.y },
+		"health": tile_health,
+		"transform": {
+			"position": { "x": global_position.x, "y": global_position.y, "z": global_position.z },
+			"rotation": { "x": rotation.x, "y": rotation.y, "z": rotation.z }
+		}
+	}
+
+func load_save_data(data: Dictionary) -> void:
+	if data.has("tile_type"):
+		tile_type = data["tile_type"]
+	
+	if data.has("health"):
+		tile_health = data["health"]
 	
 	if data.has("grid_position"):
-		grid_position = Vector2i(data["grid_position"]["x"], data["grid_position"]["y"])
-	
-	if data.has("global_position"):
-		var pos = data["global_position"]
-		global_position = Vector3(pos["x"], pos["y"], pos["z"])
-	
-	if data.has("transform"):
-		var t = data["transform"]
-		basis = Basis(
-			Vector3(t["basis_x"][0], t["basis_x"][1], t["basis_x"][2]),
-			Vector3(t["basis_y"][0], t["basis_y"][1], t["basis_y"][2]),
-			Vector3(t["basis_z"][0], t["basis_z"][1], t["basis_z"][2])
-		)
+		var gp = data["grid_position"]
+		grid_position = Vector2i(gp.get("x", 0), gp.get("y", 0))

@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://char_shark"]
+
+[sub_resource type="StandardMaterial3D" id="shark_mat"]
+albedo_color = Color(0.35, 0.38, 0.4, 1)
+roughness = 0.6
+
+[sub_resource type="CapsuleMesh" id="body_mesh"]
+radius = 0.5
+height = 3.0
+
+[node name="Shark" type="CharacterBody3D"]
+
+[node name="Body" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, 0, 0, 0)
+mesh = SubResource("body_mesh")
+surface_material_override/0 = SubResource("shark_mat")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, 0, 0, 0)
+shape = SubResource("body_mesh")

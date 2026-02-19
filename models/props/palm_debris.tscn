@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://prop_palm"]
+
+[sub_resource type="StandardMaterial3D" id="wood_mat"]
+albedo_color = Color(0.4, 0.25, 0.1, 1)
+roughness = 0.9
+
+[sub_resource type="CylinderMesh" id="log_mesh"]
+top_radius = 0.1
+bottom_radius = 0.15
+height = 3.0
+
+[node name="PalmDebris" type="RigidBody3D"]
+collision_layer = 2
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.866, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866, 0, 0, 0)
+mesh = SubResource("log_mesh")
+surface_material_override/0 = SubResource("wood_mat")
+
+[node name="Leaves" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.866, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866, 0, 1.5, 0)
+mesh = SubResource("log_mesh")
+surface_material_override/0 = SubResource("wood_mat")

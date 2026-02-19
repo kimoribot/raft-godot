@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://prop_barrel"]
+
+[sub_resource type="StandardMaterial3D" id="barrel_mat"]
+albedo_color = Color(0.35, 0.2, 0.1, 1)
+roughness = 0.7
+
+[sub_resource type="CylinderMesh" id="barrel_mesh"]
+top_radius = 0.4
+bottom_radius = 0.45
+height = 1.0
+
+[node name="Barrel" type="RigidBody3D"]
+collision_layer = 2
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("barrel_mesh")
+surface_material_override/0 = SubResource("barrel_mat")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("barrel_mesh")

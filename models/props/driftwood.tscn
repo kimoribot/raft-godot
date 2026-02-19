@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://prop_driftwood"]
+
+[sub_resource type="StandardMaterial3D" id="wood_mat"]
+albedo_color = Color(0.5, 0.35, 0.2, 1)
+roughness = 0.95
+
+[sub_resource type="CylinderMesh" id="log_mesh"]
+top_radius = 0.15
+bottom_radius = 0.2
+height = 2.5
+
+[node name="Driftwood" type="RigidBody3D"]
+collision_layer = 2
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("log_mesh")
+surface_material_override/0 = SubResource("wood_mat")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+shape = SubResource("log_mesh")

@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://raft_storage"]
+
+[sub_resource type="StandardMaterial3D" id="wood_mat"]
+albedo_color = Color(0.45, 0.3, 0.15, 1)
+roughness = 0.9
+
+[sub_resource type="StandardMaterial3D" id="metal_mat"]
+albedo_color = Color(0.3, 0.3, 0.35, 1)
+metalness = 0.8
+roughness = 0.3
+
+[sub_resource type="BoxMesh" id="box_mesh"]
+size = Vector3(1.5, 1, 1)
+
+[node name="StorageBox" type="StaticBody3D"]
+collision_layer = 1
+
+[node name="Box" type="MeshInstance3D" parent="."]
+mesh = SubResource("box_mesh")
+surface_material_override/0 = SubResource("wood_mat")
+
+[node name="Lid" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.1, 0, 0, 0, 1.5, 0, 0.55, 0)
+mesh = SubResource("box_mesh")
+surface_material_override/0 = SubResource("metal_mat")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("box_mesh")

@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://prop_crate"]
+
+[sub_resource type="StandardMaterial3D" id="crate_mat"]
+albedo_color = Color(0.6, 0.45, 0.25, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="crate_mesh"]
+size = Vector3(0.8, 0.8, 0.8)
+
+[node name="Crate" type="RigidBody3D"]
+collision_layer = 2
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("crate_mesh")
+surface_material_override/0 = SubResource("crate_mat")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("crate_mesh")
