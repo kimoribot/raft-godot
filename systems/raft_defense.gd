@@ -141,6 +141,12 @@ func _update_defenses(delta: float) -> void:
 	nearest_shark = _find_nearest_shark()
 	
 	if nearest_shark and is_instance_valid(nearest_shark):
+		# Update spike walls (passive damage when sharks get close)
+		for defense_id in defenses:
+			var defense = defenses[defense_id]
+			if defense["type"] == DefenseType.SPIKE_WALL and defense["state"] == DefenseState.ACTIVE:
+				_update_spike_wall(defense_id, delta)
+		
 		# Update turrets to target
 		for defense_id in defenses:
 			var defense = defenses[defense_id]

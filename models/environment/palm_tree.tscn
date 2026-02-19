@@ -1,0 +1,73 @@
+[gd_scene load_steps=4 format=3 uid="uid://env_palm_tree"]
+
+[sub_resource type="StandardMaterial3D" id="trunk_mat"]
+albedo_color = Color(0.45, 0.3, 0.15, 1)
+roughness = 0.9
+
+[sub_resource type="StandardMaterial3D" id="leaf_mat"]
+albedo_color = Color(0.2, 0.5, 0.15, 1)
+roughness = 0.7
+
+[sub_resource type="CylinderMesh" id="trunk_mesh"]
+top_radius = 0.15
+bottom_radius = 0.25
+height = 3.0
+
+[sub_resource type="BoxMesh" id="leaf_mesh"]
+size = Vector3(0.1, 1.5, 0.02)
+
+[sub_resource type="CylinderShape3D" id="trunk_col"]
+height = 3.0
+radius = 0.25
+
+[node name="PalmTree" type="Node3D"]
+
+[node name="Trunk" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+mesh = SubResource("trunk_mesh")
+surface_material_override/0 = SubResource("trunk_mat")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Trunk"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Trunk/StaticBody3D"]
+shape = SubResource("trunk_col")
+
+[node name="Leaf1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 3.2, 0)
+mesh = SubResource("leaf_mesh")
+surface_material_override/0 = SubResource("leaf_mat")
+
+[node name="Leaf2" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866025, 0, 3.2, 0)
+mesh = SubResource("leaf_mesh")
+surface_material_override/0 = SubResource("leaf_mat")
+
+[node name="Leaf3" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 0, 3.2, 0)
+mesh = SubResource("leaf_mesh")
+surface_material_override/0 = SubResource("leaf_mat")
+
+[node name="Leaf4" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.866025, -0.5, 0, 0.5, 0.866025, 0, 3.2, 0)
+mesh = SubResource("leaf_mesh")
+surface_material_override/0 = SubResource("leaf_mat")
+
+[node name="Leaf5" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.707107, 0.353555, -0.612372, 0, 0.866025, 0.5, 0.612372, -0.353555, 0.707107, 0, 3.0, 0)
+mesh = SubResource("leaf_mesh")
+surface_material_override/0 = SubResource("leaf_mat")
+
+[node name="Leaf6" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.707107, -0.353555, -0.612372, 0, 0.866025, -0.5, 0.612372, 0.353555, 0.707107, 0, 3.0, 0)
+mesh = SubResource("leaf_mesh")
+surface_material_override/0 = SubResource("leaf_mat")
+
+[node name="Leaf7" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.707107, 0.353555, 0.612372, 0, 0.866025, 0.5, -0.612372, -0.353555, 0.707107, 0, 3.0, 0)
+mesh = SubResource("leaf_mesh")
+surface_material_override/0 = SubResource("leaf_mat")
+
+[node name="Leaf8" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.707107, -0.353555, 0.612372, 0, 0.866025, -0.5, -0.612372, 0.353555, 0.707107, 0, 3.0, 0)
+mesh = SubResource("leaf_mesh")
+surface_material_override/0 = SubResource("leaf_mat")
