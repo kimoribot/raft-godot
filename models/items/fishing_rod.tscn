@@ -1,0 +1,74 @@
+[gd_scene load_steps=2 format=3 uid="uid://d9fjh4k6n8sga"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_handle"]
+albedo_color = Color(0.3, 0.2, 0.1, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rod"]
+albedo_color = Color(0.6, 0.6, 0.65, 1)
+metallic = 0.5
+roughness = 0.4
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_line"]
+albedo_color = Color(0.8, 0.8, 0.8, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hook"]
+albedo_color = Color(0.75, 0.75, 0.8, 1)
+metallic = 0.9
+roughness = 0.2
+
+[node name="FishingRod" type="Node3D"]
+
+[node name="Handle" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2, 0)
+mesh = ExtResource("1_cylinder")
+surface_material_override/0 = SubResource("StandardMaterial3D_handle")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Handle"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Handle/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+shape = ExtResource("1_cylinder_col")
+
+[node name="Rod" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0, 0, 1, 0.1, 0.15, 0)
+mesh = ExtResource("2_cylinder_thin")
+surface_material_override/0 = SubResource("StandardMaterial3D_rod")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Rod"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Rod/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+shape = ExtResource("2_cylinder_thin_col")
+
+[node name="Line" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0, 0, 1, 0.5, -0.15, 0)
+mesh = ExtResource("3_cylinder_very_thin")
+surface_material_override/0 = SubResource("StandardMaterial3D_line")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Line"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Line/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+shape = ExtResource("3_cylinder_very_thin_col")
+
+[node name="Hook" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0, 0, 1, 0.7, -0.35, 0)
+mesh = ExtResource("4_hook")
+surface_material_override/0 = SubResource("StandardMaterial3D_hook")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Hook"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hook/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+shape = ExtResource("4_hook_col")
+
+[node name="Reel" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.05, -0.1, 0)
+mesh = ExtResource("5_box_small")
+surface_material_override/0 = SubResource("StandardMaterial3D_handle")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Reel"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Reel/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+shape = ExtResource("5_box_small_col")
