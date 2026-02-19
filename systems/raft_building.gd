@@ -579,10 +579,18 @@ func _deduct_resource_cost(item_type: String) -> bool:
 	if not inventory_system:
 		return false
 	
-	# Deduct each resource
+	# Deduct each resource - handle both enum and string keys
 	for item_type_key in cost.keys():
 		var amount = cost[item_type_key]
-		inventory_system.remove_item(item_type_key, amount)
+		# Try direct removal first
+		var removed = false
+		if inventory_system.has_method("remove_item"):
+			removed = inventory_system.remove_item(item_type_key, amount)
+		if not removed:
+			# Try as string key
+			var item_key = str(item_type_key).to_lower()
+			if inventory_system.has_method("remove_item"):
+				inventory_system.remove_item(item_key, amount)
 	
 	return true
 

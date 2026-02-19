@@ -1038,7 +1038,7 @@ func _create_achievement_quests() -> Array:
 
 ## ==================== UI QUERY METHODS ====================
 
-funcournal() get_quest_j -> Array:
+func get_quest_journal() -> Array:
 	return quest_journal
 
 

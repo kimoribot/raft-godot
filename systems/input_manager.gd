@@ -69,6 +69,30 @@ func _ready() -> void:
 	# Copy default bindings
 	_current_keybindings = _default_keybindings.duplicate(true)
 	
+	# Use consistent action names
+	InputMap.add_action("move_up")
+	InputMap.add_action("move_down")
+	InputMap.add_action("hook_pull")
+	InputMap.add_action("inventory")
+	InputMap.add_action("crafting")
+	InputMap.add_action("pause")
+	InputMap.add_action("attack")
+	InputMap.add_action("block")
+	
+	# Remove old action names if they exist
+	if InputMap.has_action("move_forward"):
+		InputMap.erase_action("move_forward")
+	if InputMap.has_action("move_backward"):
+		InputMap.erase_action("move_backward")
+	if InputMap.has_action("sprint"):
+		InputMap.erase_action("sprint")
+	if InputMap.has_action("open_build_menu"):
+		InputMap.erase_action("open_build_menu")
+	if InputMap.has_action("place_building"):
+		InputMap.erase_action("place_building")
+	if InputMap.has_action("cancel_building"):
+		InputMap.erase_action("cancel_building")
+	
 	# Detect device type
 	_detect_device_type()
 	
