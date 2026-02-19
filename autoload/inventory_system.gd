@@ -1,5 +1,5 @@
 extends Node
-class_name InventorySystem
+
 
 ## Simple Inventory System for Raft
 ## Handles item storage, retrieval, and querying
