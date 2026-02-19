@@ -27,7 +27,7 @@ uniform float star_size : hint_range(0.5, 3.0) = 1.5;
 varying vec3 world_position;
 varying vec3 vertex_normal;
 
-const float PI = 3.14159265359;
+const float MY_PI = 3.14159265359;
 
 // Hash function for stars
 float hash(vec2 p) {
@@ -60,7 +60,7 @@ float fbm(vec2 p) {
 
 // Get sun/moon position based on time of day
 vec3 get_sun_moon_position(float tod) {
-    float angle = (tod - 6.0) / 12.0 * PI; // 6:00 sunrise, 18:00 sunset
+    float angle = (tod - 6.0) / 12.0 * MY_PI; // 6:00 sunrise, 18:00 sunset
     float y = sin(angle);
     float x = cos(angle);
     return normalize(vec3(x, y, 0.3));
@@ -164,11 +164,11 @@ void fragment() {
     
     // Stars (only visible at night)
     float star_visible = night_factor * (1.0 - sunset_factor * 0.5);
-    vec2 star_uv = vec2(yaw / PI * 0.5 + 0.5, elevation);
+    vec2 star_uv = vec2(yaw / MY_PI * 0.5 + 0.5, elevation);
     float star_field = stars(star_uv, star_visible * star_intensity);
     
     // Clouds
-    vec2 cloud_uv = vec2(yaw / PI * 0.5 + 0.5, gradient_factor);
+    vec2 cloud_uv = vec2(yaw / MY_PI * 0.5 + 0.5, gradient_factor);
     float cloud_layer = clouds(cloud_uv, TIME * day_duration * 0.01);
     
     // Cloud lighting
