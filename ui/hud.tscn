@@ -1,0 +1,487 @@
+[gd_scene load_steps=20 format=3 uid="uid://hud"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel_bg"]
+bg_color = Color(0.05, 0.1, 0.18, 0.85)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.25, 0.4, 0.55, 0.6)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bar_bg"]
+bg_color = Color(0.1, 0.12, 0.18, 0.9)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_health_fill"]
+bg_color = Color(0.85, 0.2, 0.2, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hunger_fill"]
+bg_color = Color(0.9, 0.55, 0.15, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_thirst_fill"]
+bg_color = Color(0.2, 0.5, 0.85, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cooldown_bg"]
+bg_color = Color(0.1, 0.15, 0.22, 0.9)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.3, 0.45, 0.6, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_slot_bg"]
+bg_color = Color(0.08, 0.12, 0.18, 0.9)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.25, 0.4, 0.55, 0.8)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_slot_selected"]
+bg_color = Color(0.12, 0.22, 0.35, 0.95)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.4, 0.7, 0.9, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0.2, 0.5, 0.8, 0.4)
+shadow_size = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_minimap_bg"]
+bg_color = Color(0.05, 0.1, 0.18, 0.9)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.3, 0.5, 0.65, 1)
+corner_radius_top_left = 50
+corner_radius_top_right = 50
+corner_radius_bottom_right = 50
+corner_radius_bottom_left = 50
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_objective_bg]
+bg_color = Color(0.05, 0.1, 0.15, 0.8)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.2, 0.35, 0.5, 0.5)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="Gradient" id="Gradient_health"]
+colors = PackedColorArray(1, 0.3, 0.3, 1, 0.9, 0.2, 0.2, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_health"]
+gradient = SubResource("Gradient_health")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[sub_resource type="Gradient" id="Gradient_hunger"]
+colors = PackedColorArray(1, 0.7, 0.2, 1, 0.9, 0.5, 0.1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_hunger"]
+gradient = SubResource("Gradient_hunger")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[sub_resource type="Gradient" id="Gradient_thirst"]
+colors = PackedColorArray(0.3, 0.7, 1, 1, 0.2, 0.5, 0.9, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_thirst"]
+gradient = SubResource("Gradient_thirst")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[node name="HUD" type="CanvasLayer"]
+layer = 50
+
+[node name="StatsPanel" type="PanelContainer" parent="."]
+anchors_preset = 0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 280.0
+offset_bottom = 180.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel_bg")
+
+[node name="VBox" type="VBoxContainer" parent="StatsPanel"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Title" type="Label" parent="StatsPanel/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6, 0.75, 0.9, 1)
+theme_override_font_sizes/font_size = 12
+text = "SURVIVAL"
+horizontal_alignment = 1
+
+[node name="HealthRow" type="HBoxContainer" parent="StatsPanel/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="HealthIcon" type="TextureRect" parent="StatsPanel/VBox/HealthRow"]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+texture_filter = 1
+stretch_mode = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="StatsPanel/VBox/HealthRow"]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.3, 0.3, 1)
+theme_override_font_sizes/font_size = 14
+text = "Health"
+metadata/_edit_use_anchors_ = true
+
+[node name="HealthBar" type="ProgressBar" parent="StatsPanel/VBox/HealthRow"]
+custom_minimum_size = Vector2(140, 20)
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_styles/background = SubResource("StyleBoxFlat_bar_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_health_fill")
+value = 100.0
+show_percentage = false
+
+[node name="HealthValue" type="Label" parent="StatsPanel/VBox/HealthRow"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.95, 1, 1)
+theme_override_font_sizes/font_size = 12
+text = "100"
+horizontal_alignment = 2
+
+[node name="HungerRow" type="HBoxContainer" parent="StatsPanel/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="HungerIcon" type="TextureRect" parent="StatsPanel/VBox/HungerRow"]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+texture_filter = 1
+stretch_mode = 1
+
+[node name="Label" type="Label" parent="StatsPanel/VBox/HungerRow"]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.7, 0.2, 1)
+theme_override_font_sizes/font_size = 14
+text = "Hunger"
+
+[node name="HungerBar" type="ProgressBar" parent="StatsPanel/VBox/HungerRow"]
+custom_minimum_size = Vector2(140, 20)
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_styles/background = SubResource("StyleBoxFlat_bar_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_hunger_fill")
+value = 80.0
+show_percentage = false
+
+[node name="HungerValue" type="Label" parent="StatsPanel/VBox/HungerRow"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.95, 1, 1)
+theme_override_font_sizes/font_size = 12
+text = "80"
+horizontal_alignment = 2
+
+[node name="ThirstRow" type="HBoxContainer" parent="StatsPanel/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="ThirstIcon" type="TextureRect" parent="StatsPanel/VBox/ThirstRow"]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+texture_filter = 1
+stretch_mode = 1
+
+[node name="Label" type="Label" parent="StatsPanel/VBox/ThirstRow"]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.3, 0.7, 1, 1)
+theme_override_font_sizes/font_size = 14
+text = "Thirst"
+
+[node name="ThirstBar" type="ProgressBar" parent="StatsPanel/VBox/ThirstRow"]
+custom_minimum_size = Vector2(140, 20)
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_styles/background = SubResource("StyleBoxFlat_bar_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_thirst_fill")
+value = 65.0
+show_percentage = false
+
+[node name="ThirstValue" type="Label" parent="StatsPanel/VBox/ThirstRow"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.95, 1, 1)
+theme_override_font_sizes/font_size = 12
+text = "65"
+horizontal_alignment = 2
+
+[node name="MiniMapPanel" type="PanelContainer" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -180.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = 200.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_minimap_bg")
+
+[node name="MiniMapContainer" type="CenterContainer" parent="MiniMapPanel"]
+layout_mode = 2
+
+[node name="MiniMap" type="TextureRect" parent="MiniMapPanel/MiniMapContainer"]
+custom_minimum_size = Vector2(140, 140)
+layout_mode = 2
+texture_filter = 1
+stretch_mode = 5
+
+[node name="Compass" type="Label" parent="MiniMapPanel"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -70.0
+offset_top = 10.0
+offset_right = 70.0
+offset_bottom = 30.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.8, 0.9, 1, 0.9)
+theme_override_font_sizes/font_size = 12
+text = "N  ↑  S"
+horizontal_alignment = 1
+
+[node name="HookCooldownPanel" type="PanelContainer" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -80.0
+offset_top = -140.0
+offset_right = 80.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_cooldown_bg")
+
+[node name="VBox" type="VBoxContainer" parent="HookCooldownPanel"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Title" type="Label" parent="HookCooldownPanel/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5, 0.7, 0.9, 1)
+theme_override_font_sizes/font_size = 11
+text = "HOOK"
+horizontal_alignment = 1
+
+[node name="CooldownProgress" type="ProgressBar" parent="HookCooldownPanel/VBox"]
+custom_minimum_size = Vector2(100, 16)
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_styles/background = SubResource("StyleBoxFlat_bar_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_health_fill")
+value = 100.0
+show_percentage = false
+
+[node name="CooldownLabel" type="Label" parent="HookCooldownPanel/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.85, 1, 1)
+theme_override_font_sizes/font_size = 12
+text = "READY"
+horizontal_alignment = 1
+
+[node name="InventoryPanel" type="HBoxContainer" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -300.0
+offset_top = -90.0
+offset_right = 300.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 8
+
+[node name="Slot1" type="PanelContainer" parent="InventoryPanel"]
+custom_minimum_size = Vector2(56, 56)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_slot_selected")
+
+[node name="ItemIcon" type="TextureRect" parent="InventoryPanel/Slot1"]
+layout_mode = 2
+texture_filter = 1
+stretch_mode = 5
+
+[node name="Slot2" type="PanelContainer" parent="InventoryPanel"]
+custom_minimum_size = Vector2(56, 56)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_slot_bg")
+
+[node name="ItemIcon" type="TextureRect" parent="InventoryPanel/Slot2"]
+layout_mode = 2
+texture_filter = 1
+stretch_mode = 5
+
+[node name="Slot3" type="PanelContainer" parent="InventoryPanel"]
+custom_minimum_size = Vector2(56, 56)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_slot_bg")
+
+[node name="ItemIcon" type="TextureRect" parent="InventoryPanel/Slot3"]
+layout_mode = 2
+texture_filter = 1
+stretch_mode = 5
+
+[node name="Slot4" type="PanelContainer" parent="InventoryPanel"]
+custom_minimum_size = Vector2(56, 56)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_slot_bg")
+
+[node name="ItemIcon" type="TextureRect" parent="InventoryPanel/Slot4"]
+layout_mode = 2
+texture_filter = 1
+stretch_mode = 5
+
+[node name="Slot5" type="PanelContainer" parent="InventoryPanel"]
+custom_minimum_size = Vector2(56, 56)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_slot_bg")
+
+[node name="ItemIcon" type="TextureRect" parent="InventoryPanel/Slot5"]
+layout_mode = 2
+texture_filter = 1
+stretch_mode = 5
+
+[node name="Slot6" type="PanelContainer" parent="InventoryPanel"]
+custom_minimum_size = Vector2(56, 56)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_slot_bg")
+
+[node name="ItemIcon" type="TextureRect" parent="InventoryPanel/Slot6"]
+layout_mode = 2
+texture_filter = 1
+stretch_mode = 5
+
+[node name="Slot7" type="PanelContainer" parent="InventoryPanel"]
+custom_minimum_size = Vector2(56, 56)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_slot_bg")
+
+[node name="ItemIcon" type="TextureRect" parent="InventoryPanel/Slot7"]
+layout_mode = 2
+texture_filter = 1
+stretch_mode = 5
+
+[node name="Slot8" type="PanelContainer" parent="InventoryPanel"]
+custom_minimum_size = Vector2(56, 56)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_slot_bg")
+
+[node name="ItemIcon" type="TextureRect" parent="InventoryPanel/Slot8"]
+layout_mode = 2
+texture_filter = 1
+stretch_mode = 5
+
+[node name="Slot9" type="PanelContainer" parent="InventoryPanel"]
+custom_minimum_size = Vector2(56, 56)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_slot_bg")
+
+[node name="ItemIcon" type="TextureRect" parent="InventoryPanel/Slot9"]
+layout_mode = 2
+texture_filter = 1
+stretch_mode = 5
+
+[node name="Slot0" type="PanelContainer" parent="InventoryPanel"]
+custom_minimum_size = Vector2(56, 56)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_slot_bg")
+
+[node name="ItemIcon" type="TextureRect" parent="InventoryPanel/Slot0"]
+layout_mode = 2
+texture_filter = 1
+stretch_mode = 5
+
+[node name="ObjectivePanel" type="PanelContainer" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -200.0
+offset_top = 20.0
+offset_right = 200.0
+offset_bottom = 60.0
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_objective_bg")
+
+[node name="ObjectiveLabel" type="Label" parent="ObjectivePanel"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.85, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0.15, 0.25, 0.8)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_font_sizes/font_size = 14
+text = "🎯 Current Objective: Craft a Simple Hook"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DayNightIndicator" type="Label" parent="."]
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.0
+offset_left = -120.0
+offset_top = 210.0
+offset_right = -20.0
+offset_bottom = 235.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.8, 0.9, 1, 0.9)
+theme_override_font_sizes/font_size = 14
+text = "☀ Day 3"
+horizontal_alignment = 2

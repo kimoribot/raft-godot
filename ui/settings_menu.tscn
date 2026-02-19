@@ -1,0 +1,480 @@
+[gd_scene load_steps=15 format=3 uid="uid://settings_menu"]
+
+[ext_resource type="Shader" path="res://shaders/ocean.gdshader" id="1_ocean"]
+[ext_resource type="Shader" path="res://shaders/sky.gdshader" id="2_sky"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ocean"]
+render_priority = 0
+shader = ExtResource("1_ocean")
+shader_parameter/albedo = Color(0.02, 0.15, 0.35, 1)
+shader_parameter/foam_color = Color(0.9, 0.95, 1, 1)
+shader_parameter/deep_color = Color(0, 0.05, 0.15, 1)
+shader_parameter/shallow_color = Color(0.1, 0.4, 0.5, 1)
+shader_parameter/wave_speed = 0.5
+shader_parameter/wave_height = 0.3
+shader_parameter/wave_frequency = 1.0
+shader_parameter/foam_threshold = 0.7
+shader_parameter/foam_amount = 0.4
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sky"]
+render_priority = 0
+shader = ExtResource("2_sky")
+shader_parameter/time_of_day = 14.0
+shader_parameter/day_duration = 60.0
+shader_parameter/day_top_color = Color(0.25, 0.55, 0.9, 1)
+shader_parameter/day_bottom_color = Color(0.6, 0.8, 1, 1)
+
+[sub_resource type="QuadMesh" id="QuadMesh_ocean"]
+size = Vector2(200, 200)
+
+[sub_resource type="QuadMesh" id="QuadMesh_sky"]
+size = Vector2(2, 2)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+bg_color = Color(0.05, 0.1, 0.18, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.3, 0.5, 0.65, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+shadow_color = Color(0, 0.2, 0.3, 0.5)
+shadow_size = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tab"]
+bg_color = Color(0.1, 0.18, 0.28, 0.9)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.25, 0.4, 0.55, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tab_selected"]
+bg_color = Color(0.15, 0.28, 0.42, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.4, 0.65, 0.85, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_button"]
+bg_color = Color(0.1, 0.18, 0.28, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.35, 0.55, 0.7, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_button_hover"]
+bg_color = Color(0.15, 0.28, 0.42, 0.98)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.5, 0.7, 0.85, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_slider_bg"]
+bg_color = Color(0.08, 0.14, 0.22, 0.9)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_slider_fill"]
+bg_color = Color(0.2, 0.5, 0.7, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_option_button"]
+bg_color = Color(0.1, 0.18, 0.28, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.35, 0.55, 0.7, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_option_hover"]
+bg_color = Color(0.15, 0.28, 0.42, 0.98)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.5, 0.7, 0.85, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[node name="SettingsMenu" type="CanvasLayer"]
+layer = 110
+
+[node name="BackgroundDim" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.02, 0.05, 0.1, 0.75)
+
+[node name="ParallaxBackground" type="CanvasLayer" parent="."]
+layer = -5
+
+[node name="Sky" type="MeshInstance3D" parent="ParallaxBackground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 50, -100)
+material_override = SubResource("ShaderMaterial_sky")
+mesh = SubResource("QuadMesh_sky")
+
+[node name="Ocean" type="MeshInstance3D" parent="ParallaxBackground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5, 0)
+material_override = SubResource("ShaderMaterial_ocean")
+mesh = SubResource("QuadMesh_ocean")
+
+[node name="MainPanel" type="PanelContainer" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -320.0
+offset_top = -260.0
+offset_right = 320.0
+offset_bottom = 260.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="VBox" type="VBoxContainer" parent="MainPanel"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="TitleBar" type="PanelContainer" parent="MainPanel/VBox"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_tab")
+
+[node name="Title" type="Label" parent="MainPanel/VBox/TitleBar"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.95, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0.2, 0.35, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 28
+text = "⚙  SETTINGS"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TabContainer" type="TabContainer" parent="MainPanel/VBox"]
+custom_minimum_size = Vector2(580, 380)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.8, 0.9, 1)
+theme_override_colors/font_selected_color = Color(0.95, 0.98, 1, 1)
+theme_override_font_sizes/font_size = 16
+tab_align = 0
+drag_to_rearrange_enabled = false
+
+[node name="Graphics" type="VBoxContainer" parent="MainPanel/VBox/TabContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="GraphicsHeader" type="Label" parent="MainPanel/VBox/TabContainer/Graphics"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6, 0.75, 0.9, 1)
+theme_override_font_sizes/font_size = 14
+text = "GRAPHICS"
+
+[node name="QualityRow" type="HBoxContainer" parent="MainPanel/VBox/TabContainer/Graphics"]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="QualityLabel" type="Label" parent="MainPanel/VBox/TabContainer/Graphics/QualityRow"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.85, 0.95, 1)
+theme_override_font_sizes/font_size = 16
+text = "Quality:"
+
+[node name="QualityOption" type="OptionButton" parent="MainPanel/VBox/TabContainer/Graphics/QualityRow"]
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.95, 1, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_option_button")
+theme_override_styles/hover = SubResource("StyleBoxFlat_option_hover")
+text = "Ultra"
+expand_icon = true
+
+[node name="ResolutionRow" type="HBoxContainer" parent="MainPanel/VBox/TabContainer/Graphics"]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="ResolutionLabel" type="Label" parent="MainPanel/VBox/TabContainer/Graphics/ResolutionRow"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.85, 0.95, 1)
+theme_override_font_sizes/font_size = 16
+text = "Resolution:"
+
+[node name="ResolutionOption" type="OptionButton" parent="MainPanel/VBox/TabContainer/Graphics/ResolutionRow"]
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.95, 1, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_option_button")
+theme_override_styles/hover = SubResource("StyleBoxFlat_option_hover")
+text = "1920x1080"
+expand_icon = true
+
+[node name="VSyncCheck" type="CheckBox" parent="MainPanel/VBox/TabContainer/Graphics"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.85, 0.95, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 16
+button_pressed = true
+text = "VSync"
+
+[node name="FullscreenCheck" type="CheckBox" parent="MainPanel/VBox/TabContainer/Graphics"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.85, 0.95, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 16
+button_pressed = true
+text = "Fullscreen"
+
+[node name="Audio" type="VBoxContainer" parent="MainPanel/VBox/TabContainer"]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="AudioHeader" type="Label" parent="MainPanel/VBox/TabContainer/Audio"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6, 0.75, 0.9, 1)
+theme_override_font_sizes/font_size = 14
+text = "AUDIO"
+
+[node name="MasterVolumeRow" type="HBoxContainer" parent="MainPanel/VBox/TabContainer/Audio"]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="MasterLabel" type="Label" parent="MainPanel/VBox/TabContainer/Audio/MasterVolumeRow"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.85, 0.95, 1)
+theme_override_font_sizes/font_size = 16
+text = "Master:"
+
+[node name="MasterSlider" type="HSlider" parent="MainPanel/VBox/TabContainer/Audio/MasterVolumeRow"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+min_value = 0.0
+max_value = 100.0
+value = 80.0
+
+[node name="MasterValue" type="Label" parent="MainPanel/VBox/TabContainer/Audio/MasterVolumeRow"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.8, 0.9, 1)
+theme_override_font_sizes/font_size = 14
+text = "80%"
+horizontal_alignment = 2
+
+[node name="MusicVolumeRow" type="HBoxContainer" parent="MainPanel/VBox/TabContainer/Audio"]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="MusicLabel" type="Label" parent="MainPanel/VBox/TabContainer/Audio/MusicVolumeRow"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.85, 0.95, 1)
+theme_override_font_sizes/font_size = 16
+text = "Music:"
+
+[node name="MusicSlider" type="HSlider" parent="MainPanel/VBox/TabContainer/Audio/MusicVolumeRow"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+min_value = 0.0
+max_value = 100.0
+value = 70.0
+
+[node name="MusicValue" type="Label" parent="MainPanel/VBox/TabContainer/Audio/MusicVolumeRow"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.8, 0.9, 1)
+theme_override_font_sizes/font_size = 14
+text = "70%"
+horizontal_alignment = 2
+
+[node name="SFXVolumeRow" type="HBoxContainer" parent="MainPanel/VBox/TabContainer/Audio"]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="SFXLabel" type="Label" parent="MainPanel/VBox/TabContainer/Audio/SFXVolumeRow"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.85, 0.95, 1)
+theme_override_font_sizes/font_size = 16
+text = "SFX:"
+
+[node name="SFXSlider" type="HSlider" parent="MainPanel/VBox/TabContainer/Audio/SFXVolumeRow"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+min_value = 0.0
+max_value = 100.0
+value = 100.0
+
+[node name="SFXValue" type="Label" parent="MainPanel/VBox/TabContainer/Audio/SFXVolumeRow"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.8, 0.9, 1)
+theme_override_font_size = 14
+text = "100%"
+horizontal_alignment = 2
+
+[node name="Controls" type="VBoxContainer" parent="MainPanel/VBox/TabContainer"]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="ControlsHeader" type="Label" parent="MainPanel/VBox/TabContainer/Controls"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6, 0.75, 0.9, 1)
+theme_override_font_sizes/font_size = 14
+text = "CONTROLS"
+
+[node name="InvertYCheck" type="CheckBox" parent="MainPanel/VBox/TabContainer/Controls"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.85, 0.95, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 16
+text = "Invert Y-Axis"
+
+[node name="SensitivityRow" type="HBoxContainer" parent="MainPanel/VBox/TabContainer/Controls"]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="SensitivityLabel" type="Label" parent="MainPanel/VBox/TabContainer/Controls/SensitivityRow"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.85, 0.95, 1)
+theme_override_font_sizes/font_size = 16
+text = "Sensitivity:"
+
+[node name="SensitivitySlider" type="HSlider" parent="MainPanel/VBox/TabContainer/Controls/SensitivityRow"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+min_value = 0.1
+max_value = 2.0
+step = 0.1
+value = 1.0
+
+[node name="SensitivityValue" type="Label" parent="MainPanel/VBox/TabContainer/Controls/SensitivityRow"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.8, 0.9, 1)
+theme_override_font_sizes/font_size = 14
+text = "1.0"
+horizontal_alignment = 2
+
+[node name="Game" type="VBoxContainer" parent="MainPanel/VBox/TabContainer"]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="GameHeader" type="Label" parent="MainPanel/VBox/TabContainer/Game"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6, 0.75, 0.9, 1)
+theme_override_font_sizes/font_size = 14
+text = "GAME"
+
+[node name="DifficultyRow" type="HBoxContainer" parent="MainPanel/VBox/TabContainer/Game"]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="DifficultyLabel" type="Label" parent="MainPanel/VBox/TabContainer/Game/DifficultyRow"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.85, 0.95, 1)
+theme_override_font_sizes/font_size = 16
+text = "Difficulty:"
+
+[node name="DifficultyOption" type="OptionButton" parent="MainPanel/VBox/TabContainer/Game/DifficultyRow"]
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.95, 1, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_option_button")
+theme_override_styles/hover = SubResource("StyleBoxFlat_option_hover")
+text = "Normal"
+expand_icon = true
+
+[node name="TutorialCheck" type="CheckBox" parent="MainPanel/VBox/TabContainer/Game"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.85, 0.95, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 16
+button_pressed = true
+text = "Show Tutorial Tips"
+
+[node name="AutoSaveCheck" type="CheckBox" parent="MainPanel/VBox/TabContainer/Game"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.85, 0.95, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 16
+button_pressed = true
+text = "Auto-Save"
+
+[node name="ButtonRow" type="HBoxContainer" parent="MainPanel/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="BackButton" type="Button" parent="MainPanel/VBox/ButtonRow"]
+custom_minimum_size = Vector2(140, 48)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.85, 0.95, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_button")
+theme_override_styles/hover = SubResource("StyleBoxFlat_button_hover")
+text = "←  Back"
+
+[node name="ApplyButton" type="Button" parent="MainPanel/VBox/ButtonRow"]
+custom_minimum_size = Vector2(140, 48)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.95, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_button")
+theme_override_styles/hover = SubResource("StyleBoxFlat_button_hover")
+text = "Apply ✓"

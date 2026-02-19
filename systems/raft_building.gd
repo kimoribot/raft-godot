@@ -557,7 +557,7 @@ func _can_afford_item(item_type: String) -> bool:
 	# Check each resource
 	for item_type_key in cost.keys():
 		var required = cost[item_type_key]
-		var available = _get_item_count(item_type_key)
+		var available = _get_item_count_for_cost(item_type_key)
 		if available < required:
 			return false
 	
@@ -606,6 +606,44 @@ func _get_item_count(item_type) -> int:
 		return inventory_system.get_item_quantity(item_key)
 	elif inventory_system.has("items"):
 		return inventory_system.items.get(item_key, 0)
+	return 0
+
+
+func _get_item_count_for_cost(item_type) -> int:
+	"""Get item count specifically for cost checking - handles both enum and string keys"""
+	if not inventory_system:
+		return 0
+	
+	# Try as Recipes.ItemType enum first
+	if item_type is Recipes.ItemType:
+		if inventory_system.has_method("get_item_count"):
+			return inventory_system.get_item_count(item_type)
+		elif inventory_system.has_method("get_item_quantity"):
+			return inventory_system.get_item_quantity(item_type)
+	
+	# Handle as string key
+	var item_key = str(item_type).to_lower()
+	if inventory_system.has_method("get_item_count"):
+		# Try the key directly
+		var count = inventory_system.get_item_count(item_key)
+		if count > 0:
+			return count
+		# Try lowercase
+		count = inventory_system.get_item_count(item_key)
+		if count > 0:
+			return count
+	
+	# Fallback: check items dict directly
+	if "items" in inventory_system:
+		var items = inventory_system.items
+		if items.has(item_key):
+			return items[item_key]
+		# Try with enum name lookup
+		if item_type is Recipes.ItemType:
+			var enum_name = Recipes.get_item_type_name(item_type).to_lower()
+			if items.has(enum_name):
+				return items[enum_name]
+	
 	return 0
 
 

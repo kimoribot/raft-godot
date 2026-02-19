@@ -815,7 +815,7 @@ func _create_side_quests() -> Array:
 	var quest_radio = Quest.new()
 	quest_radio.id = "side_radio_enthusiast"
 	quest_radio.title = "Radio Enthusiast"
-	quest_risher.description = "Tune into different radio frequencies and discover secrets."
+	quest_radio.description = "Tune into different radio frequencies and discover secrets."
 	quest_radio.quest_type = QuestType.SIDE
 	quest_radio.chapter = 2
 	quest_radio.status = QuestStatus.AVAILABLE
