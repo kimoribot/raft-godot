@@ -223,8 +223,8 @@ static func get_all_recipes() -> Array[Recipe]:
 	garden_patch.category = Category.RAFT_PIECE
 	garden_patch.item_type = ItemType.GARDEN_PATCH
 	garden_patch.unlock_requirement = UnlockRequirement.LEVEL_6
-	garden_patch.unlock_level	garden_patch.cost = {Item = 6
-Type.WOOD: 15, ItemType.FABRIC: 6, ItemType.STONE: 5}
+	garden_patch.unlock_level = 6
+	garden_patch.cost = {ItemType.WOOD: 15, ItemType.FABRIC: 6, ItemType.STONE: 5}
 	garden_patch.craft_time = 12.0
 	garden_patch.experience_given = 35.0
 	recipes.append(garden_patch)

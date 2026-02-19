@@ -1,0 +1,354 @@
+[gd_scene load_steps=6 format=3 uid="uid://cjxk4n3drqwze"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+bg_color = Color(0.08, 0.12, 0.18, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.2, 0.35, 0.45, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+shadow_color = Color(0, 0, 0, 0.5)
+shadow_size = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tab_active"]
+bg_color = Color(0.15, 0.25, 0.35, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.4, 0.6, 0.75, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tab_inactive"]
+bg_color = Color(0.06, 0.1, 0.14, 0.8)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.15, 0.25, 0.35, 0.6)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_recipe"]
+bg_color = Color(0.1, 0.15, 0.22, 0.9)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.2, 0.3, 0.4, 0.7)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_recipe_hover"]
+bg_color = Color(0.15, 0.22, 0.32, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.4, 0.6, 0.8, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[node name="CraftingMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -400.0
+offset_top = -280.0
+offset_right = 400.0
+offset_bottom = 280.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="VBox" type="VBoxContainer" parent="Panel"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Header" type="HBoxContainer" parent="Panel/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Title" type="Label" parent="Panel/VBox/Header"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.95, 1, 1)
+theme_override_font_sizes/font_size = 28
+text = "🔨 Crafting"
+
+[node name="CloseButton" type="Button" parent="Panel/VBox/Header"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.75, 0.8, 1)
+theme_override_colors/font_hover_color = Color(1, 0.5, 0.5, 1)
+theme_override_font_sizes/font_size = 24
+text = "✕"
+
+[node name="CategoryTabs" type="HBoxContainer" parent="Panel/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="ToolsTab" type="Button" parent="Panel/VBox/CategoryTabs"]
+custom_minimum_size = Vector2(100, 40)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.85, 0.9, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_disabled_color = Color(0.5, 0.55, 0.6, 0.6)
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxFlat_tab_active")
+theme_override_styles/hover = SubResource("StyleBoxFlat_tab_active")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_tab_active")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_tab_inactive")
+text = "🛠️ Tools"
+
+[node name="RaftTab" type="Button" parent="Panel/VBox/CategoryTabs"]
+custom_minimum_size = Vector2(100, 40)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.85, 0.9, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_disabled_color = Color(0.5, 0.55, 0.6, 0.6)
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxFlat_tab_inactive")
+theme_override_styles/hover = SubResource("StyleBoxFlat_tab_active")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_tab_active")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_tab_inactive")
+text = "🚢 Raft"
+
+[node name="FoodTab" type="Button" parent="Panel/VBox/CategoryTabs"]
+custom_minimum_size = Vector2(100, 40)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.85, 0.9, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_disabled_color = Color(0.5, 0.55, 0.6, 0.6)
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxFlat_tab_inactive")
+theme_override_styles/hover = SubResource("StyleBoxFlat_tab_active")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_tab_active")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_tab_inactive")
+text = "🍖 Food"
+
+[node name="HSeparator" type="HSeparator" parent="Panel/VBox"]
+layout_mode = 2
+
+[node name="RecipeGrid" type="GridContainer" parent="Panel/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 10
+columns = 3
+
+[node name="Recipe1" type="PanelContainer" parent="Panel/VBox/RecipeGrid"]
+custom_minimum_size = Vector2(110, 90)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_recipe")
+
+[node name="VBox" type="VBoxContainer" parent="Panel/VBox/RecipeGrid/Recipe1"]
+layout_mode = 2
+alignment = 1
+
+[node name="Icon" type="Label" parent="Panel/VBox/RecipeGrid/Recipe1/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.85, 0.6, 1)
+theme_override_font_sizes/font_size = 32
+text = "🪓"
+horizontal_alignment = 1
+
+[node name="Name" type="Label" parent="Panel/VBox/RecipeGrid/Recipe1/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.95, 1, 1)
+theme_override_font_sizes/font_size = 12
+text = "Axe"
+horizontal_alignment = 1
+
+[node name="Requirements" type="Label" parent="Panel/VBox/RecipeGrid/Recipe1/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6, 0.7, 0.8, 1)
+theme_override_font_sizes/font_size = 10
+text = "🪵 x3"
+horizontal_alignment = 1
+
+[node name="Recipe2" type="PanelContainer" parent="Panel/VBox/RecipeGrid"]
+custom_minimum_size = Vector2(110, 90)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_recipe")
+
+[node name="VBox" type="VBoxContainer" parent="Panel/VBox/RecipeGrid/Recipe2"]
+layout_mode = 2
+alignment = 1
+
+[node name="Icon" type="Label" parent="Panel/VBox/RecipeGrid/Recipe2/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.85, 0.6, 1)
+theme_override_font_sizes/font_size = 32
+text = "🔨"
+horizontal_alignment = 1
+
+[node name="Name" type="Label" parent="Panel/VBox/RecipeGrid/Recipe2/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.95, 1, 1)
+theme_override_font_sizes/font_size = 12
+text = "Hammer"
+horizontal_alignment = 1
+
+[node name="Requirements" type="Label" parent="Panel/VBox/RecipeGrid/Recipe2/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6, 0.7, 0.8, 1)
+theme_override_font_sizes/font_size = 10
+text = "🪵 x2"
+horizontal_alignment = 1
+
+[node name="Recipe3" type="PanelContainer" parent="Panel/VBox/RecipeGrid"]
+custom_minimum_size = Vector2(110, 90)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_recipe")
+
+[node name="VBox" type="VBoxContainer" parent="Panel/VBox/RecipeGrid/Recipe3"]
+layout_mode = 2
+alignment = 1
+
+[node name="Icon" type="Label" parent="Panel/VBox/RecipeGrid/Recipe3/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.85, 0.6, 1)
+theme_override_font_sizes/font_size = 32
+text = "⚓"
+horizontal_alignment = 1
+
+[node name="Name" type="Label" parent="Panel/VBox/RecipeGrid/Recipe3/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.95, 1, 1)
+theme_override_font_sizes/font_size = 12
+text = "Hook"
+horizontal_alignment = 1
+
+[node name="Requirements" type="Label" parent="Panel/VBox/RecipeGrid/Recipe3/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6, 0.7, 0.8, 1)
+theme_override_font_sizes/font_size = 10
+text = "🪵 x1"
+horizontal_alignment = 1
+
+[node name="Recipe4" type="PanelContainer" parent="Panel/VBox/RecipeGrid"]
+custom_minimum_size = Vector2(110, 90)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_recipe")
+
+[node name="VBox" type="VBoxContainer" parent="Panel/VBox/RecipeGrid/Recipe4"]
+layout_mode = 2
+alignment = 1
+
+[node name="Icon" type="Label" parent="Panel/VBox/RecipeGrid/Recipe4/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.85, 0.6, 1)
+theme_override_font_sizes/font_size = 32
+text = "🪣"
+horizontal_alignment = 1
+
+[node name="Name" type="Label" parent="Panel/VBox/RecipeGrid/Recipe4/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.95, 1, 1)
+theme_override_font_sizes/font_size = 12
+text = "Bucket"
+horizontal_alignment = 1
+
+[node name="Requirements" type="Label" parent="Panel/VBox/RecipeGrid/Recipe4/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6, 0.7, 0.8, 1)
+theme_override_font_sizes/font_size = 10
+text = "🪵 x2"
+horizontal_alignment = 1
+
+[node name="Recipe5" type="PanelContainer" parent="Panel/VBox/RecipeGrid"]
+custom_minimum_size = Vector2(110, 90)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_recipe")
+
+[node name="VBox" type="VBoxContainer" parent="Panel/VBox/RecipeGrid/Recipe5"]
+layout_mode = 2
+alignment = 1
+
+[node name="Icon" type="Label" parent="Panel/VBox/RecipeGrid/Recipe5/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.85, 0.6, 1)
+theme_override_font_sizes/font_size = 32
+text = "🕯️"
+horizontal_alignment = 1
+
+[node name="Name" type="Label" parent="Panel/VBox/RecipeGrid/Recipe5/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.95, 1, 1)
+theme_override_font_sizes/font_size = 12
+text = "Torch"
+horizontal_alignment = 1
+
+[node name="Requirements" type="Label" parent="Panel/VBox/RecipeGrid/Recipe5/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6, 0.7, 0.8, 1)
+theme_override_font_sizes/font_size = 10
+text = "🪵 x1"
+horizontal_alignment = 1
+
+[node name="Recipe6" type="PanelContainer" parent="Panel/VBox/RecipeGrid"]
+custom_minimum_size = Vector2(110, 90)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_recipe")
+
+[node name="VBox" type="VBoxContainer" parent="Panel/VBox/RecipeGrid/Recipe6"]
+layout_mode = 2
+alignment = 1
+
+[node name="Icon" type="Label" parent="Panel/VBox/RecipeGrid/Recipe6/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.85, 0.6, 1)
+theme_override_font_sizes/font_size = 32
+text = "🛡️"
+horizontal_alignment = 1
+
+[node name="Name" type="Label" parent="Panel/VBox/RecipeGrid/Recipe6/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.95, 1, 1)
+theme_override_font_sizes/font_size = 12
+text = "Spear"
+horizontal_alignment = 1
+
+[node name="Requirements" type="Label" parent="Panel/VBox/RecipeGrid/Recipe6/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6, 0.7, 0.8, 1)
+theme_override_font_sizes/font_size = 10
+text = "🪵 x4"
+horizontal_alignment = 1
+
+[node name="Footer" type="HBoxContainer" parent="Panel/VBox"]
+layout_mode = 2
+alignment = 2
+
+[node name="ResourcesLabel" type="Label" parent="Panel/VBox/Footer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5, 0.6, 0.7, 1)
+theme_override_font_sizes/font_size = 14
+text = "Wood: 12  |  Plastic: 5  |  Food: 3"
+
+[node name="CraftButton" type="Button" parent="Panel/VBox/Footer"]
+custom_minimum_size = Vector2(120, 40)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.98, 1, 1)
+theme_override_font_sizes/font_size = 18
+text = "Craft"
