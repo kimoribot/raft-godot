@@ -1,0 +1,139 @@
+[gd_scene load_steps=4 format=3 uid="uid://char_player"]
+
+[sub_resource type="StandardMaterial3D" id="skin_mat"]
+albedo_color = Color(0.85, 0.7, 0.55, 1)
+roughness = 0.8
+
+[sub_resource type="StandardMaterial3D" id="shirt_mat"]
+albedo_color = Color(0.2, 0.4, 0.7, 1)
+roughness = 0.9
+
+[sub_resource type="StandardMaterial3D" id="pants_mat"]
+albedo_color = Color(0.25, 0.2, 0.15, 1)
+roughness = 0.9
+
+[sub_resource type="StandardMaterial3D" id="hair_mat"]
+albedo_color = Color(0.2, 0.15, 0.1, 1)
+roughness = 0.9
+
+[sub_resource type="CapsuleMesh" id="body_mesh"]
+radius = 0.25
+height = 0.8
+
+[sub_resource type="CapsuleMesh" id="head_mesh"]
+radius = 0.2
+height = 0.35
+
+[sub_resource type="CapsuleMesh" id="arm_mesh"]
+radius = 0.08
+height = 0.5
+
+[sub_resource type="CapsuleMesh" id="leg_mesh"]
+radius = 0.1
+height = 0.6
+
+[sub_resource type="CylinderMesh" id="foot_mesh"]
+top_radius = 0.1
+bottom_radius = 0.12
+height = 0.15
+
+[sub_resource type="SphereMesh" id="hair_mesh"]
+radius = 0.18
+height = 0.15
+
+[sub_resource type="CapsuleShape3D" id="body_col"]
+radius = 0.25
+height = 0.8
+
+[sub_resource type="CapsuleShape3D" id="head_col"]
+radius = 0.2
+height = 0.35
+
+[sub_resource type="CapsuleShape3D" id="arm_col"]
+radius = 0.08
+height = 0.5
+
+[sub_resource type="CapsuleShape3D" id="leg_col"]
+radius = 0.1
+height = 0.6
+
+[sub_resource type="CylinderShape3D" id="foot_col"]
+height = 0.15
+radius = 0.12
+
+[node name="Player" type="Node3D"]
+
+[node name="Body" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+mesh = SubResource("body_mesh")
+surface_material_override/0 = SubResource("shirt_mat")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Body"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Body/StaticBody3D"]
+shape = SubResource("body_col")
+
+[node name="Head" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
+mesh = SubResource("head_mesh")
+surface_material_override/0 = SubResource("skin_mat")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Head"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Head/StaticBody3D"]
+shape = SubResource("head_col")
+
+[node name="Hair" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, -0.05)
+mesh = SubResource("hair_mesh")
+surface_material_override/0 = SubResource("hair_mat")
+
+[node name="ArmLeft" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.35, 0.95, 0)
+mesh = SubResource("arm_mesh")
+surface_material_override/0 = SubResource("skin_mat")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="ArmLeft"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ArmLeft/StaticBody3D"]
+shape = SubResource("arm_col")
+
+[node name="ArmRight" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.35, 0.95, 0)
+mesh = SubResource("arm_mesh")
+surface_material_override/0 = SubResource("skin_mat")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="ArmRight"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ArmRight/StaticBody3D"]
+shape = SubResource("arm_col")
+
+[node name="LegLeft" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.12, 0.3, 0)
+mesh = SubResource("leg_mesh")
+surface_material_override/0 = SubResource("pants_mat")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="LegLeft"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LegLeft/StaticBody3D"]
+shape = SubResource("leg_col")
+
+[node name="LegRight" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.12, 0.3, 0)
+mesh = SubResource("leg_mesh")
+surface_material_override/0 = SubResource("pants_mat")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="LegRight"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LegRight/StaticBody3D"]
+shape = SubResource("leg_col")
+
+[node name="FootLeft" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.12, 0.05, 0.02)
+mesh = SubResource("foot_mesh")
+surface_material_override/0 = SubResource("pants_mat")
+
+[node name="FootRight" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.12, 0.05, 0.02)
+mesh = SubResource("foot_mesh")
+surface_material_override/0 = SubResource("pants_mat")

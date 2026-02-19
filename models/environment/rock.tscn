@@ -1,0 +1,59 @@
+[gd_scene load_steps=4 format=3 uid="uid://env_rock"]
+
+[sub_resource type="StandardMaterial3D" id="rock_mat"]
+albedo_color = Color(0.4, 0.38, 0.35, 1)
+roughness = 0.95
+
+[sub_resource type="StandardMaterial3D" id="rock_dark_mat"]
+albedo_color = Color(0.3, 0.28, 0.25, 1)
+roughness = 0.95
+
+[sub_resource type="BoxMesh" id="rock_main_mesh"]
+size = Vector3(1.2, 0.8, 1.0)
+
+[sub_resource type="BoxMesh" id="rock_small_mesh"]
+size = Vector3(0.5, 0.4, 0.45)
+
+[sub_resource type="BoxMesh" id="rock_tiny_mesh"]
+size = Vector3(0.3, 0.25, 0.28)
+
+[sub_resource type="BoxShape3D" id="rock_main_col"]
+size = Vector3(1.2, 0.8, 1.0)
+
+[sub_resource type="BoxShape3D" id="rock_small_col"]
+size = Vector3(0.5, 0.4, 0.45)
+
+[sub_resource type="BoxShape3D" id="rock_tiny_col"]
+size = Vector3(0.3, 0.25, 0.28)
+
+[node name="Rock" type="Node3D"]
+
+[node name="RockMain" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+mesh = SubResource("rock_main_mesh")
+surface_material_override/0 = SubResource("rock_mat")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="RockMain"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RockMain/StaticBody3D"]
+shape = SubResource("rock_main_col")
+
+[node name="RockSmall" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.9, 0.1, 0.2, -0.1, 0.95, 0, -0.2, 0, 0.9, 0.5, 0.25, 0.4)
+mesh = SubResource("rock_small_mesh")
+surface_material_override/0 = SubResource("rock_dark_mat")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="RockSmall"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RockSmall/StaticBody3D"]
+shape = SubResource("rock_small_col")
+
+[node name="RockTiny" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.85, -0.1, -0.15, 0.1, 0.9, 0.1, 0.15, -0.1, 0.85, -0.45, 0.15, -0.3)
+mesh = SubResource("rock_tiny_mesh")
+surface_material_override/0 = SubResource("rock_mat")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="RockTiny"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RockTiny/StaticBody3D"]
+shape = SubResource("rock_tiny_col")
